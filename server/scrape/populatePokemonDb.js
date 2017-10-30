@@ -14,7 +14,10 @@ function populatePokemonDb (connection) {
       if (err) console.log(err)
       else {
         var {pokemon} = JSON.parse(data)
-        resolve(Promise.all[pokemon.map(insertPokemon)])
+        db('pokemon').del()
+          .then(() => {
+            resolve(Promise.all[pokemon.map(insertPokemon)])
+          })
       }
     })
   });

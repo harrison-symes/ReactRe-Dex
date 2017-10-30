@@ -16,3 +16,9 @@ export function getPokemonRequest () {
       })
   }
 }
+
+export function toggleScrollModeAction () {
+  return {
+    type: 'TOGGLE_SCROLL_MODE'
+  }
+}

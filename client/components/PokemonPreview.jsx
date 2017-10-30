@@ -1,6 +1,7 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
-export default class PokemonPreview extends React.Component {
+class PokemonPreview extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,11 +16,12 @@ export default class PokemonPreview extends React.Component {
   unClick() {
     this.setState({isClicked: false})
   }
+
   render() {
-    const {pokemon} = this.props
+    const {pokemon, scrollMode} = this.props
     const {isClicked} = this.state
     const size = isClicked ? 'is-12' : 'is-4'
-    return isClicked
+    return isClicked || scrollMode
       ? <div className='box'>
         <div className="level">
           <p className="level-item title is-2">#{pokemon.dex_number} - {pokemon.name}</p>
@@ -36,3 +38,11 @@ export default class PokemonPreview extends React.Component {
       </div>
   }
 }
+
+const mapStateToProps = ({scrollMode}) => {
+  return {
+    scrollMode
+  }
+}
+
+export default connect(mapStateToProps)(PokemonPreview)
