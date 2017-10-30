@@ -1,4 +1,4 @@
-const environment = require('../../knexfile')[process.env.NODE_ENV || 'development']
+istconst environment = require('../../knexfile')[process.env.NODE_ENV || 'development']
 const knex = require('knex')(environment)
 const fs = require('fs')
 const path = require('path')

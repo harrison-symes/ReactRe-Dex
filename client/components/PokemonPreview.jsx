@@ -30,7 +30,7 @@ class PokemonPreview extends React.Component {
           <img onClick={this.click} src={pokemon.image_url} />
           <p className="subtitle is-2 is-right">{pokemon.description}</p>
         </div>
-        <button className="button is-outline" onClick={this.unClick}>Show Less</button>
+        {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
       </div>
       : <div className={`box column is-4`}>
         <img onClick={this.click} className="media image" src={pokemon.image_url} />

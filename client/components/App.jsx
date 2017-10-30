@@ -12,7 +12,7 @@ const App = () => (
     <div className='app-container'>
       <h1>Hello World</h1>
       <Route path="/" component={Nav} />
-      <Route path="/list" component={PokemonList} />
+      <Route exact path="/" component={PokemonList} />
       {/* <Route path="/login" component={Login} /> */}
       {/* <Route path="/Register" component={Register} /> */}
     </div>
