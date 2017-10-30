@@ -29,7 +29,7 @@ class PokemonList extends React.Component {
   }
   filterPokemon(pokemon) {
     const search = this.state.search.toLowerCase()
-    return pokemon.filter(mon => mon.name.toLowerCase().includes(search))
+    return pokemon.filter(mon => mon.name.toLowerCase().includes(search) || mon.dex_number.toString().includes( search))
   }
   render() {
     const {pokemon, scrollMode} = this.props

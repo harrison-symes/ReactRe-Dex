@@ -48,8 +48,20 @@ const getPokemon = ($) => ({
   image_url: getImage($),
   dex_number: getNumber($),
   name: getName($),
-  description: getDescription($)
+  description: getDescription($),
 })
+
+
+const getType = ($) => {
+
+  return 'placeholder'
+}
+
+const getSmogonData = (pokemon, $) => {
+  console.log($('.Type'));
+  pokemon.type_one = getType($)
+  return pokemon
+}
 
 function getImageRecursive (idx, arr) {
   return new Promise(function(resolve, reject) {
@@ -59,15 +71,21 @@ function getImageRecursive (idx, arr) {
     .then(res => {
       var $ = cheerio.load(res.text)
       var pokemon = getPokemon($)
-      arr.push(pokemon)
-      writeFile(arr)
-        .then(message => console.log(message))
-        .catch(err => {
-          console.log(err)
+      request
+        .get(`http://www.smogon.com/dex/sm/pokemon/${pokemon.name}/`)
+        .then(res => {
+          const $2 = cheerio.load(res.text)
+          pokemon = getSmogonData(pokemon, $2)
+          arr.push(pokemon)
+          writeFile(arr)
+          .then(message => console.log(message))
+          .catch(err => {
+            console.log(err)
+          })
+          if (idx >= 701) resolve(arr)
+          else resolve(getImageRecursive(idx + 1, arr))
+          // console.log(res.text);
         })
-      if (idx >= 701) resolve(arr)
-      else resolve(getImageRecursive(idx + 1, arr))
-      // console.log(res.text);
     })
     .catch(err => {
       console.log(err)

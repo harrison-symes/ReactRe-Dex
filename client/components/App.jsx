@@ -9,9 +9,9 @@ import PokemonList from './PokemonList'
 
 const App = () => (
   <Router>
-    <div className='app-container'>
-      <h1>Hello World</h1>
-      <Route path="/" component={Nav} />
+    <div className='container'>
+      <Nav />
+      <hr />
       <Route exact path="/" component={PokemonList} />
       {/* <Route path="/login" component={Login} /> */}
       {/* <Route path="/Register" component={Register} /> */}
