@@ -41,7 +41,11 @@ class PokemonPreview extends React.Component {
         <div className="hero-body has-text-centered">
           <div className="columns">
             <img className="image" src={pokemon.image_url} />
-            <p className="subtitle is-2 is-right">{pokemon.description}</p>
+            <div className="column">
+              <p className="button" disabled>{pokemon.type_one}</p>
+              {pokemon.type_two && <p className="button" disabled>{pokemon.type_two}</p>}
+              <p className="subtitle is-2 is-right">{pokemon.description}</p>
+            </div>
           </div>
         </div>
         <div className="hero-foot">
