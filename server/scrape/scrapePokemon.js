@@ -69,7 +69,7 @@ const getSmogonData = (pokemon, cb) => {
   zombie.waitDuration = '30s'
   console.log("starting site");
   Browser = new zombie()
-  Browser.visit("http://www.smogon.com/dex/sm/pokemon/" + pokemon.name)
+  Browser.visit("http://www.smogon.com/dex/sm/pokemon/" + "venusaur")
     .then(() => {
       Browser.wait()
         .then(() => {
@@ -77,11 +77,8 @@ const getSmogonData = (pokemon, cb) => {
           const $ = cheerio.load(Browser.html())
           // console.log($('ul'))
           var list = $('.PokemonSummary-types').find('.TypeList').find('.Type')
-          list[0].children.forEach(child => {
-            console.log({child});
-          })
           pokemon.type_one = list[0].children[0].data
-          pokemon.type_two = list[0].children[1] ? list[0].children[0].data : null
+          pokemon.type_two = list[1].children[0] ? list[1].children[0].data : null
           cb(pokemon)
         })
     })
