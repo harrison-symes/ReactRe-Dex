@@ -57,31 +57,35 @@ const getType = ($) => {
   return 'placeholder'
 }
 
-const getSmogonData = (pokemon, cb) => {
-  var nock = require('nock')
+const getSmogonData = (pokemon) => {
+  return new Promise(function(resolve, reject) {
+    var nock = require('nock')
 
-  nock('http://pagead2.googlesyndication.com')
+    nock('http://pagead2.googlesyndication.com')
     .get('/pagead/js/adsbygoogle.js')
     .times(Math.Infinity)
     .reply(200, '{}')
 
-  var zombie = require("zombie");
-  zombie.waitDuration = '30s'
-  console.log("starting site");
-  Browser = new zombie()
-  Browser.visit("http://www.smogon.com/dex/sm/pokemon/" + pokemon.name)
+    var zombie = require("zombie");
+    zombie.waitDuration = '30s'
+    console.log("starting site");
+    Browser = new zombie()
+    Browser.visit("http://www.smogon.com/dex/sm/pokemon/" + pokemon.name)
     .then(() => {
       Browser.wait()
-        .then(() => {
-          // console.log(Browser.html())
-          const $ = cheerio.load(Browser.html())
-          // console.log($('ul'))
-          var list = $('.PokemonSummary-types').find('.TypeList').find('.Type')
-          pokemon.type_one = list[0].children[0].data
-          pokemon.type_two = list[1] ? list[1].children[0].data : null
-          cb(pokemon)
-        })
+      .then(() => {
+        // console.log(Browser.html())
+        const $ = cheerio.load(Browser.html())
+        // console.log($('ul'))
+        var list = $('.PokemonSummary-types').find('.TypeList').find('.Type')
+        pokemon.type_one = list[0].children[0].data
+        pokemon.type_two = list[1] ? list[1].children[0].data : null
+        resolve(pokemon)
+      })
+      .catch(() => resolve(getSmogonData(pokemon)))
     })
+    .catch(() => resolve(getSmogonData(pokemon)))
+  });
   // return pokemon
 }
 
@@ -93,16 +97,17 @@ function getImageRecursive (idx, arr) {
     .then(res => {
       var $ = cheerio.load(res.text)
       var pokemon = getPokemon($)
-      getSmogonData(pokemon, (pokemon) => {
-        arr.push(pokemon)
-        writeFile(arr)
-        .then(message => console.log(message))
-        .catch(err => {
-          console.log(err)
+      getSmogonData(pokemon)
+        .then((pokemon) => {
+          arr.push(pokemon)
+          writeFile(arr)
+          .then(message => console.log(message))
+          .catch(err => {
+            console.log(err)
+          })
+          if (idx >= 701) resolve(arr)
+          else resolve(getImageRecursive(idx + 1, arr))
         })
-        if (idx >= 701) resolve(arr)
-        else resolve(getImageRecursive(idx + 1, arr))
-      })
       // request
       //   .get(`http://www.smogon.com/dex/sm/pokemon/${pokemon.name}/`)
       //   .then(res => {
