@@ -14,7 +14,7 @@ function start () {
       writeFile([])
       .then(() => start())
     } else {
-      var arr = JSON.parse(data)
+      var arr = JSON.parse(data).pokemon
       console.log(arr)
       getImageRecursive(arr.length == 0 ? 1 : arr.length + 1, arr)
       .then(images => {
@@ -28,7 +28,7 @@ function start () {
 
 function writeFile(pokemon) {
   return new Promise(function(resolve, reject) {
-    fs.writeFile(path.join(__dirname, '/pokemans.txt'), JSON.stringify(pokemon), (err) => {
+    fs.writeFile(path.join(__dirname, '/pokemans.txt'), JSON.stringify({pokemon}), (err) => {
       if (!err) resolve("written " + pokemon.length +  " images")
       else reject(err)
     })
@@ -45,8 +45,8 @@ const getDescription = ($) => $('.version-y')[0].children[0].data.split(' ').fil
 
 
 const getPokemon = ($) => ({
-  image: getImage($),
-  number: getNumber($),
+  image_url: getImage($),
+  dex_number: getNumber($),
   name: getName($),
   description: getDescription($)
 })
@@ -65,7 +65,7 @@ function getImageRecursive (idx, arr) {
         .catch(err => {
           console.log(err)
         })
-      if (idx >= 805) resolve(arr)
+      if (idx >= 701) resolve(arr)
       else resolve(getImageRecursive(idx + 1, arr))
       // console.log(res.text);
     })
