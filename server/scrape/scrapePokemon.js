@@ -58,7 +58,6 @@ const getType = ($) => {
 }
 
 const getSmogonData = (pokemon, $) => {
-  console.log($('.Type'));
   pokemon.type_one = getType($)
   return pokemon
 }
@@ -75,6 +74,8 @@ function getImageRecursive (idx, arr) {
         .get(`http://www.smogon.com/dex/sm/pokemon/${pokemon.name}/`)
         .then(res => {
           const $2 = cheerio.load(res.text)
+          console.log($2('body')[0].children);
+          console.log(`http://www.smogon.com/dex/sm/pokemon/${pokemon.name}/`)
           pokemon = getSmogonData(pokemon, $2)
           arr.push(pokemon)
           writeFile(arr)

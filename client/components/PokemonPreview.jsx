@@ -29,15 +29,24 @@ class PokemonPreview extends React.Component {
     const {isClicked} = this.state
     const size = isClicked ? 'is-12' : 'is-4'
     return isClicked || scrollMode
-      ? <div className='box' id={pokemon.name}>
-        <div className="level">
-          <p className="level-item title is-2">#{pokemon.dex_number} - {pokemon.name}</p>
+      ? <div className='hero box' id={pokemon.name}>
+        <div className="hero-head container level has-text-centered">
+          <div className=" level-item">
+            <p className="title is-1">#{pokemon.dex_number} </p>
+            <img className="image 128x128" src={`http://www.smogon.com/dex/media/sprites/xy/${pokemon.name.toLowerCase()}.gif`} />
+            <p className="title is-2"> {pokemon.name}</p>
+          </div>
         </div>
-        <div className="columns">
-          <img onClick={this.click} src={pokemon.image_url} />
-          <p className="subtitle is-2 is-right">{pokemon.description}</p>
+        <hr />
+        <div className="hero-body has-text-centered">
+          <div className="columns">
+            <img className="image" src={pokemon.image_url} />
+            <p className="subtitle is-2 is-right">{pokemon.description}</p>
+          </div>
         </div>
-        {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
+        <div className="hero-foot">
+          {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
+        </div>
       </div>
       : <div className={`box column is-4`}>
         <img onClick={this.click} className="media image" src={pokemon.image_url} />
