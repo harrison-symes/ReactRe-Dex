@@ -31,10 +31,15 @@ class PokemonPreview extends React.Component {
     return isClicked || scrollMode
       ? <div className='hero box' id={pokemon.name}>
         <div className="hero-head container level has-text-centered">
-          <div className=" level-item">
-            <p className="title is-1">#{pokemon.dex_number} </p>
-            <img className="image 128x128" src={`http://www.smogon.com/dex/media/sprites/xy/${pokemon.name.toLowerCase()}.gif`} />
-            <p className="title is-2"> {pokemon.name}</p>
+          <div className="level-item">
+            <img className="level-item box image 128x128" src={`http://www.smogon.com/dex/media/sprites/xy/${pokemon.name.toLowerCase()}.gif`} />
+          </div>
+          <div className="level-item">
+            <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name}</p>
+          </div>
+          <div className="level-item">
+            <p className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_one}</p>
+            {pokemon.type_two && <p className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_two}</p>}
           </div>
         </div>
         <hr />
@@ -42,18 +47,21 @@ class PokemonPreview extends React.Component {
           <div className="columns">
             <img className="image" src={pokemon.image_url} />
             <div className="column">
-              <p className={`button ${pokemon.type_one}`} disabled>{pokemon.type_one}</p>
-              {pokemon.type_two && <p className={`button ${pokemon.type_one}`} disabled>{pokemon.type_two}</p>}
               <p className="subtitle is-2 is-right">{pokemon.description}</p>
             </div>
           </div>
         </div>
-        <div className="hero-foot">
+        <div className="hero-foot level">
+          <div className="level-left">
+            <a className="button is-info is-inverted level-item" href={`https://bulbapedia.bulbagarden.net/wiki/${pokemon.name}_(Pok%C3%A9mon)`}>View on Bulbapedia</a>
+            <a className="button is-info is-inverted level-item" href={`http://www.smogon.com/dex/sm/pokemon/${pokemon.name.toLowerCase()}/`}>View on Smogon</a>
+
+          </div>
           {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
         </div>
       </div>
-      : <div className={`box column is-4`}>
-        <img onClick={this.click} className="media image" src={pokemon.image_url} />
+      : <div onClick={this.click} className={`box column is-4`}>
+        <img  className="media image" src={pokemon.image_url} />
         <p className="subtitle is-3">#{pokemon.dex_number} - {pokemon.name}</p>
       </div>
   }

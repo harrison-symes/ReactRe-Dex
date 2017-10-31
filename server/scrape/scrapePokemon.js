@@ -1,4 +1,4 @@
-console.log("hello");
+evconsole.log("hello");
 
 var request = require('superagent')
 var cheerio = require('cheerio')
@@ -57,7 +57,7 @@ const getType = ($) => {
   return 'placeholder'
 }
 
-const getSmogonData = (pokemon) => {
+const getSmogonData = (pokemon, tries = 0) => {
   return new Promise(function(resolve, reject) {
     var nock = require('nock')
 
@@ -82,9 +82,15 @@ const getSmogonData = (pokemon) => {
         pokemon.type_two = list[1] ? list[1].children[0].data : null
         resolve(pokemon)
       })
-      .catch(() => resolve(getSmogonData(pokemon)))
+      .catch(() => {
+        if (tries >= 5) resolve(pokemon)
+        else resolve(getSmogonData(pokemon, tries + 1))
+      })
     })
-    .catch(() => resolve(getSmogonData(pokemon)))
+    .catch(() => {
+      if (tries >= 5) resolve(pokemon)
+      else resolve(getSmogonData(pokemon, tries + 1))
+    })
   });
   // return pokemon
 }
@@ -105,7 +111,7 @@ function getImageRecursive (idx, arr) {
           .catch(err => {
             console.log(err)
           })
-          if (idx >= 701) resolve(arr)
+          if (idx >= 805) resolve(arr)
           else resolve(getImageRecursive(idx + 1, arr))
         })
       // request

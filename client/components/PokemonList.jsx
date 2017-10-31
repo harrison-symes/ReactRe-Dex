@@ -32,8 +32,8 @@ class PokemonList extends React.Component {
     return pokemon.filter(mon =>
       mon.name.toLowerCase().includes(search)
       || mon.dex_number.toString().includes( search)
-      || mon.type_one.toLowerCase().includes(search)
-      || (mon.type_two && mon.type_two.toLowerCase().includes(search))
+      || (mon.type_one && mon.type_one.toLowerCase() == search)
+      || (mon.type_two && mon.type_two.toLowerCase() == search)
     )
   }
   render() {
@@ -45,7 +45,7 @@ class PokemonList extends React.Component {
         <input className="input" type="text" value={search} name="search" onChange={this.updateSearch} />
         <button onClick={this.resetSearch} className="button is-warning">Reset</button>
       </div>
-      <p>{this.filterPokemon(pokemon).length} Pokemon Caught!</p>
+      {search.length > 0 && <p>{this.filterPokemon(pokemon).length} Pokemon Caught!</p>}
       <div className="section columns is-desktop-only is-multiline has-text-centered">
         {this.filterPokemon(pokemon).map(pokemon => <PokemonPreview key={pokemon.dex_number} pokemon={pokemon} />)}
       </div>

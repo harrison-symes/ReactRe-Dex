@@ -1,11 +1,3 @@
-body {
-  background-color: "blue";
-}
-
-button {
-  background-color: "red";
-}
-
-button .Grass {
+.tag .Grass {
   color: green;
 }
