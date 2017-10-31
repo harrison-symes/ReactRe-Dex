@@ -2,6 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import jump from 'jump.js'
 
+import PokemonSprite from './pokemonSprite'
+
 class PokemonPreview extends React.Component {
   constructor(props) {
     super(props)
@@ -32,7 +34,7 @@ class PokemonPreview extends React.Component {
       ? <div className='hero box' id={pokemon.name}>
         <div className="hero-head container level has-text-centered">
           <div className="level-item">
-            <img className="level-item box image 128x128" src={`http://www.smogon.com/dex/media/sprites/xy/${pokemon.name.toLowerCase()}.gif`} />
+            <PokemonSprite pokemon={pokemon} />
           </div>
           <div className="level-item">
             <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name}</p>
