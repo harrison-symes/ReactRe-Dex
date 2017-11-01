@@ -53,7 +53,7 @@ class PokemonList extends React.Component {
     const {search, page} = this.state
     const filtered = this.filterPokemon(pokemon)
     const pagePokemon = filtered.splice((page) * 30, 30)
-    const pagination = <Pagination page={page} pages={Math.floor(filtered.length / 30)} changePage={this.changePage} />
+    const pagination = <Pagination page={page} pages={Math.round(filtered.length / 30)} changePage={this.changePage} />
 
     return <div className="container pokemon-page">
       <div className="level">
