@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Pagination ({page, entries, changePage}) {
+export default function Pagination ({page, pages, changePage}) {
   return <div className="pagination is-centered">
     <div className="pagination-list">
       <div className="level">
@@ -11,14 +11,14 @@ export default function Pagination ({page, entries, changePage}) {
           }
         </div> */}
         <div className="level-right">
-          {page != 1
+          {page != 0
             ? <a className="pagination-previous" onClick={() => changePage(-1)}>Previous</a>
             : <a className="pagination-previous" disabled>Previous</a>
           }
           <p className="tag is-large">{page}</p>
-          {page == Math.round(entries / 30)
-            ? <a className="pagination-next" onClick={() => changePage(1)}>Next Page</a>
-            : <a className="pagination-next" disabled >Next Page</a>
+          {page == pages
+            ? <a className="pagination-next" disabled >Next Page</a>
+            : <a className="pagination-next" onClick={() => changePage(1)}>Next Page</a>
           }
         </div>
       </div>
