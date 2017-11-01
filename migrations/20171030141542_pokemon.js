@@ -13,6 +13,10 @@ exports.up = function(knex, Promise) {
     table.string('SpAtk')
     table.string('SpDef')
     table.string('Speed')
+    table.string('evolvesFrom')
+    table.string('evolveInto')
+    table.integer('stage')
+    table.integer('stages')
   })
 }
 
