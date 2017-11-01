@@ -12,7 +12,8 @@ class PokemonList extends React.Component {
     super(props)
     this.state = {
       search: '',
-      page: 0
+      page: 0,
+      jumping: false
     }
     this.updateSearch = this.updateSearch.bind(this)
     this.filterPokemon = this.filterPokemon.bind(this)
@@ -42,9 +43,10 @@ class PokemonList extends React.Component {
       || (mon.type_two && mon.type_two.toLowerCase() == search)
     )
   }
-  changePage(increment) {
-    this.setState({page: this.state.page + increment})
-    jump('.pokemon-page')
+  changePage(page) {
+    if (typeof page == 'number') {
+      this.setState({page, jumping: true})
+    }
   }
   render() {
     const {pokemon, scrollMode} = this.props
@@ -58,7 +60,7 @@ class PokemonList extends React.Component {
         <button onClick={this.resetSearch} className="button is-warning">Reset</button>
       </div>
       {search.length > 0 && <p>{filtered.length} Pokemon Caught!</p>}
-      <Pagination page={page} pages={Math.round(this.props.pokemon.length / 30)} changePage={this.changePage} />
+      <Pagination page={page} pages={Math.floor(this.props.pokemon.length / 30)} changePage={this.changePage} />
       <hr />
       {pagePokemon.length > 0 && <div className="has-text-centered">
         <p className="subtitle is-3">{pagePokemon[0].name} (#{pagePokemon[0].dex_number}) -  {pagePokemon[pagePokemon.length - 1].name} (#{pagePokemon[pagePokemon.length - 1].dex_number})</p>
@@ -66,7 +68,7 @@ class PokemonList extends React.Component {
       <div className="pokemon-list section columns is-desktop-only is-multiline has-text-centered">
         {pagePokemon.map((singlePokemon, i) => <PokemonPreview key={singlePokemon.dex_number} pokemon={singlePokemon} />)}
       </div>
-      <Pagination page={page} pages={Math.round(filtered.length / 30)} changePage={this.changePage} />
+      <Pagination page={page} pages={Math.floor(filtered.length / 30)} changePage={this.changePage} />
     </div>
   }
 }
