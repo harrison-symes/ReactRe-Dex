@@ -5,6 +5,7 @@ import jump from 'jump.js'
 
 import PokemonSprite from './pokemonSprite'
 import StatsTable from './StatsTable'
+import Evolutions from './Evolutions'
 
 import {solveColor} from '../utils/solveTypeColor'
 
@@ -38,7 +39,7 @@ class PokemonPreview extends React.Component {
       ? <div className='hero box' id={pokemon.name}>
         <div className="hero-head container level has-text-centered">
           <div className="level-item">
-            <PokemonSprite pokemon={pokemon} />
+            <PokemonSprite name={pokemon.name} />
           </div>
           <div className="level-item">
             <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name}</p>
@@ -56,6 +57,7 @@ class PokemonPreview extends React.Component {
               <p className="subtitle is-6 is-right">{pokemon.description}</p>
               <hr />
               <StatsTable pokemon={pokemon} />
+              <Evolutions pokemon={pokemon} />
             </div>
           </div>
         </div>

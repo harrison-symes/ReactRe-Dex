@@ -14,7 +14,7 @@ exports.up = function(knex, Promise) {
     table.string('SpDef')
     table.string('Speed')
     table.string('evolvesFrom')
-    table.string('evolveInto')
+    table.string('evolvesInto')
     table.integer('stage')
     table.integer('stages')
   })
