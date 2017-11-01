@@ -14,7 +14,7 @@ function start () {
     } else {
       var arr = JSON.parse(data).pokemon
       console.log(arr)
-      getImageRecursive(arr.length == 0 ? 1 : arr.length + 1, arr)
+      getImageRecursive(1, arr)
       .then(images => {
         console.log(images)
         writeFile(images)
@@ -78,7 +78,32 @@ const getSmogonData = (pokemon, tries = 0) => {
         var list = $('.PokemonSummary-types').find('.TypeList').find('.Type')
         pokemon.type_one = list[0].children[0].data
         pokemon.type_two = list[1] ? list[1].children[0].data : null
+        var stats = $('.PokemonStats').find('tbody').find('tr')
+        for (let i = 0; i < stats.length; i++) {
+          console.log(stats.length);
+          const stat = stats[i].children[0].children[0].data
+          const value = stats[i].children[1].children[0].data
+          console.log({stat, value});
+          switch (stat) {
+            case 'HP:':
+              pokemon.HP = value
+            case 'Attack:':
+              pokemon.Attack = value
+            case 'Defense:':
+              pokemon.Defense = value
+            case 'Sp. Atk:':
+              pokemon.SpAtk = value
+            case 'Sp. Def:':
+              pokemon.SpDef = value
+            case 'Speed:':
+              pokemon.Speed = value
+            default:
+              break;
+          }
+        }
+        console.log(pokemon)
         resolve(pokemon)
+
       })
       .catch(() => {
         if (tries >= 5) resolve(pokemon)
@@ -93,17 +118,33 @@ const getSmogonData = (pokemon, tries = 0) => {
   // return pokemon
 }
 
+function getPokemonBaseData(idx, arr) {
+  return new Promise(function(resolve, reject) {
+    if (!arr) arr = []
+    console.log({arr});
+    // const pokemon = arr.find(pokemon => pokemon.dex_number == idx)
+    // if (pokemon && pokemon.hasOwnProperty('name') && pokemon.hasOwnProperty('description') && pokemon.hasOwnProperty('image_url')) resolve (pokemon)
+    // else {
+      request
+      .get('https://www.pokemon.com/us/pokedex/' + idx)
+      .then(res => {
+        var $ = cheerio.load(res.text)
+        var pokemon = getPokemon($)
+        resolve(pokemon)
+      })
+      .catch(err => resolve(err))
+    // }
+  })
+}
+
 function getImageRecursive (idx, arr) {
   return new Promise(function(resolve, reject) {
     console.log(idx)
-    request
-    .get('https://www.pokemon.com/us/pokedex/' + idx)
-    .then(res => {
-      var $ = cheerio.load(res.text)
-      var pokemon = getPokemon($)
-      getSmogonData(pokemon)
+    getPokemonBaseData(idx, arr)
+      .then(pokemon => {
+        getSmogonData(pokemon)
         .then((pokemon) => {
-          arr.push(pokemon)
+          arr[idx - 1] = pokemon
           writeFile(arr)
           .then(message => console.log(message))
           .catch(err => {
@@ -112,19 +153,10 @@ function getImageRecursive (idx, arr) {
           if (idx >= 805) resolve(arr)
           else resolve(getImageRecursive(idx + 1, arr))
         })
-      // request
-      //   .get(`http://www.smogon.com/dex/sm/pokemon/${pokemon.name}/`)
-      //   .then(res => {
-      //     const $2 = cheerio.load(res.text)
-      //     console.log($2('body')[0].children);
-      //     console.log(`http://www.smogon.com/dex/sm/pokemon/${pokemon.name}/`)
-      //     pokemon = getSmogonData(pokemon, $2)
-      //     // console.log(res.text);
-      //   })
-    })
-    .catch(err => {
-      console.log(err)
-      resolve(getImageRecursive(idx, arr))
-    })
+      })
+      .catch(err => {
+        console.log(err)
+        resolve(getImageRecursive(idx, arr))
+      })
   })
 }

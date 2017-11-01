@@ -26,7 +26,7 @@ function populatePokemonDb (connection) {
 function insertPokemon(pokemon) {
   return new Promise(function(resolve, reject) {
     const db = knex
-    console.log("inserting", pokemon.name)
+    // console.log("inserting", pokemon.name)
     db('pokemon')
     .where('dex_number', pokemon.dex_number)
     .first()

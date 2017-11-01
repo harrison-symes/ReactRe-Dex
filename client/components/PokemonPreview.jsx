@@ -2,7 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import jump from 'jump.js'
 
+
 import PokemonSprite from './pokemonSprite'
+import StatsTable from './StatsTable'
 
 class PokemonPreview extends React.Component {
   constructor(props) {
@@ -48,8 +50,10 @@ class PokemonPreview extends React.Component {
         <div className="hero-body has-text-centered">
           <div className="columns">
             <img className="image" src={pokemon.image_url} />
-            <div className="column">
-              <p className="subtitle is-2 is-right">{pokemon.description}</p>
+            <div className="column is-6">
+              <p className="subtitle is-6 is-right">{pokemon.description}</p>
+              <hr />
+              <StatsTable pokemon={pokemon} />
             </div>
           </div>
         </div>
@@ -57,7 +61,6 @@ class PokemonPreview extends React.Component {
           <div className="level-left">
             <a className="button is-info is-inverted level-item" href={`https://bulbapedia.bulbagarden.net/wiki/${pokemon.name}_(Pok%C3%A9mon)`}>View on Bulbapedia</a>
             <a className="button is-info is-inverted level-item" href={`http://www.smogon.com/dex/sm/pokemon/${pokemon.name.toLowerCase()}/`}>View on Smogon</a>
-
           </div>
           {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
         </div>
