@@ -6,6 +6,8 @@ import jump from 'jump.js'
 import PokemonSprite from './pokemonSprite'
 import StatsTable from './StatsTable'
 
+import {solveColor} from '../utils/solveTypeColor'
+
 class PokemonPreview extends React.Component {
   constructor(props) {
     super(props)
@@ -42,8 +44,8 @@ class PokemonPreview extends React.Component {
             <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name}</p>
           </div>
           <div className="level-item">
-            <p className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_one}</p>
-            {pokemon.type_two && <p className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_two}</p>}
+            <p style={{backgroundColor: solveColor(pokemon.type_one) }} className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_one}</p>
+            {pokemon.type_two && <p style={{backgroundColor: solveColor(pokemon.type_two) }} className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_two}</p>}
           </div>
         </div>
         <hr />
