@@ -5,15 +5,25 @@ import {logoutUser} from '../actions/logout'
 
 function Nav (props) {
   return (
-    <div className="Nav">
-      <Link to="/">Home</Link>{" | "}
-      {props.auth.isAuthenticated
-        ? <button onClick={() => props.dispatch(logoutUser())}>Logout</button>
-        : <div>
-          <Link to="/login">Login</Link>{" | "}
-          <Link to="/register">Register</Link>
+    <div className="Nav hero is-bold is-info level has-text-centered">
+      <div className="hero-head section">
+        <div className="level-right level-item">
+          <Link className="button is-info is-inverted" to="/">Home</Link>
         </div>
-      }
+      </div>
+      <div className="hero-body">
+        <h1 className="title is-1 level-item">React Re-Dex</h1>
+        <p className="subtitle is-3">The Fully Stacked Poke-Dex</p>
+      </div>
+      <div className="hero-foot">
+        {props.auth.isAuthenticated
+          ? <button onClick={() => props.dispatch(logoutUser())}>Logout</button>
+          : <div className="level-right">
+            <Link className="button is-info is-inverted is-outline" to="/login">Login</Link>
+            <Link className="button is-info is-inverted is-outline" to="/register">Register</Link>
+          </div>
+        }
+      </div>
 
     </div>
   )

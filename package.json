@@ -15,7 +15,8 @@
     "h:rollback": "heroku run knex migrate:rollback",
     "h:seed": "heroku run knex seed:run",
     "knex": "knex",
-    "scrape:pokemon": "node server/scrape/scrapePokemon.js"
+    "scrape:pokemon": "node server/scrape/scrapePokemon.js",
+    "populate:pokemon": "node server/scrape/populatePokemonDb.js"
   },
   "ava": {
     "require": "babel-register",
@@ -54,8 +55,10 @@
     "jsdom": "^11.0.0",
     "jsonwebtoken": "^7.4.3",
     "jsx-loader": "^0.13.2",
+    "jump.js": "^1.0.2",
     "jwt-decode": "^2.2.0",
     "knex": "^0.13.0",
+    "nock": "^9.0.27",
     "passport": "^0.4.0",
     "pg": "^6.2.3",
     "react": "^15.5.4",
@@ -67,6 +70,8 @@
     "redux-thunk": "^2.2.0",
     "superagent": "^2.2.0",
     "webpack": "^2.3.3",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-server": "^2.4.2",
+    "zombie": "^5.0.7",
+    "zombie-w": "^0.1.17"
   }
 }
