@@ -4,7 +4,10 @@ export default function Pagination ({page, pages, changePage}) {
   return <div className="pagination is-centered">
     <div className="pagination-list">
       <div className="level">
-        {page != 0 && <a className="pagination-link" onClick={() => changePage(0)}>First</a>}
+        {page != 0
+          ? <a className="pagination-link" onClick={() => changePage(0)}>First</a>
+          : <a className="pagination-link" disabled>First</a>
+        }
         {page != 0
           ? <a className="pagination-link" onClick={() => changePage(page-1)}>Previous</a>
           : <a className="pagination-link" disabled>Previous</a>
@@ -14,7 +17,10 @@ export default function Pagination ({page, pages, changePage}) {
           ? <a className="pagination-link" disabled >Next Page</a>
           : <a className="pagination-link" onClick={() => changePage(page+1)}>Next Page</a>
         }
-        {page != pages && <a className="pagination-link" onClick={() => changePage(pages)}>Last</a>}
+        {page != pages
+          ? <a className="pagination-link" onClick={() => changePage(pages)}>Last</a>
+          : <a className="pagination-link" disabled>Last</a>
+        }
       </div>
     </div>
   </div>
