@@ -36,6 +36,8 @@ export function solveColor (type) {
       return '#FA92B2'
     case 'Rock':
       return '#D1C17D'
+    case 'Dark':
+      return '#A29288'
     default:
       return 'light-grey'
   }
