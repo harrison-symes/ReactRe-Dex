@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
 import {toggleScrollModeAction} from '../actions/pokemon'
+import {types, solveColor} from '../utils/solveTypeColor'
 
 class SearchBar extends Component {
   constructor(props) {
@@ -21,10 +22,15 @@ class SearchBar extends Component {
   }
   render() {
     const {search, scrollMode} = this.props
-    return <div className="level">
-      <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
-      <input className="input" type="text" value={search} name="search" onChange={this.updateSearch} />
-      <button onClick={this.reset} className="button is-warning">Reset</button>
+    return <div className='container'>
+      <div className="level">
+        <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
+        <input className="input" type="text" value={search} name="search" onChange={this.updateSearch} />
+        <button onClick={this.reset} className="button is-warning">Reset</button>
+      </div>
+      <div className="section columns is-multiline">
+        {types.map(type => <p onClick={() => this.props.update(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 has-text-centered`}>{type}</p>)}
+      </div>
     </div>
   }
 }
