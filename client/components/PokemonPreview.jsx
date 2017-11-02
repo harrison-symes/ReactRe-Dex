@@ -32,7 +32,7 @@ class PokemonPreview extends React.Component {
     this.setState({isClicked: false})
   }
   render() {
-    const {pokemon, scrollMode} = this.props
+    const {pokemon, scrollMode, searchType} = this.props
     const {isClicked} = this.state
     const size = isClicked ? 'is-12' : 'is-4'
     return isClicked || scrollMode
@@ -45,8 +45,8 @@ class PokemonPreview extends React.Component {
             <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name}</p>
           </div>
           <div className="level-item">
-            <p style={{backgroundColor: solveColor(pokemon.type_one) }} className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_one}</p>
-            {pokemon.type_two && <p style={{backgroundColor: solveColor(pokemon.type_two) }} className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_two}</p>}
+            <p onClick={() => searchType(pokemon.type_one)} style={{backgroundColor: solveColor(pokemon.type_one) }} className={`button level-item is-large ${pokemon.type_one}`}>{pokemon.type_one}</p>
+            {pokemon.type_two && <p onClick={() => searchType(pokemon.type_two)} style={{backgroundColor: solveColor(pokemon.type_two) }} className={`button level-item is-large ${pokemon.type_one}`}>{pokemon.type_two}</p>}
           </div>
         </div>
         <hr />
@@ -82,4 +82,10 @@ const mapStateToProps = ({scrollMode}) => {
   }
 }
 
-export default connect(mapStateToProps)(PokemonPreview)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    searchType: (search) => dispatch({type: 'UPDATE_SEARCH', search})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PokemonPreview)
