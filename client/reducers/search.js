@@ -6,6 +6,5 @@ export default function searchReducer (state = '', action) {
       return ''
     default:
       return state
-
   }
 }
