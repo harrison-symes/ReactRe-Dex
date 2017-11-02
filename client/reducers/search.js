@@ -5,6 +5,6 @@ export default function searchReducer (state = '', action) {
     case 'RESET_SEARCH':
       return ''
     default:
-      return state
+      return state  
   }
 }

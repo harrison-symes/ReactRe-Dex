@@ -12,11 +12,9 @@ class PokemonList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      page: 0,
       jumping: false
     }
     this.filterPokemon = this.filterPokemon.bind(this)
-    this.changePage = this.changePage.bind(this)
   }
   componentDidMount() {
     this.props.dispatch(getPokemonRequest())
@@ -31,14 +29,8 @@ class PokemonList extends React.Component {
       || (mon.type_two && mon.type_two.toLowerCase() == search)
     )
   }
-  changePage(page) {
-    if (typeof page == 'number') {
-      this.setState({page, jumping: true})
-    }
-  }
   render() {
-    const {pokemon, scrollMode, search} = this.props
-    const {page} = this.state
+    const {pokemon, scrollMode, search, page} = this.props
     const filtered = this.filterPokemon(pokemon)
     const pagePokemon = filtered.splice((page) * 30, 30)
     const pagination = <Pagination page={page} pages={Math.round(filtered.length / 30)} changePage={this.changePage} />
@@ -58,12 +50,13 @@ class PokemonList extends React.Component {
   }
 }
 
-const mapStateToProps = ({pokemon, scrollMode, search}) => {
+const mapStateToProps = ({pokemon, scrollMode, search, page}) => {
   console.log(scrollMode);
   return {
     pokemon,
     scrollMode,
-    search
+    search,
+    page
   }
 }
 

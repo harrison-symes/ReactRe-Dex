@@ -1,6 +1,7 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
-export default function Pagination ({page, pages, changePage}) {
+function Pagination ({page, pages, changePage}) {
   return <div className="pagination is-centered">
     <div className="pagination-list">
       <div className="level">
@@ -25,3 +26,17 @@ export default function Pagination ({page, pages, changePage}) {
     </div>
   </div>
 }
+
+const mapStateToProps = ({page}) => {
+  return {
+    page
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changePage: (page) => dispatch({type: 'CHANGE_PAGE', page})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pagination)
