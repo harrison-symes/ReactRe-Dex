@@ -2,5 +2,5 @@ const environment = require('../../knexfile')[process.env.NODE_ENV || 'developme
 const knex = require('knex')(environment)
 
 module.exports = {
-  getPokemon: (testDb) => (testDb || knex)('pokemon') 
+  getPokemon: (testDb) => (testDb || knex)('pokemon').orderBy('dex_number', 'asc')
 }

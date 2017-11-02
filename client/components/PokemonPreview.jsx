@@ -2,7 +2,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 import jump from 'jump.js'
 
+
 import PokemonSprite from './pokemonSprite'
+import StatsTable from './StatsTable'
+import Evolutions from './Evolutions'
+
+import {solveColor} from '../utils/solveTypeColor'
 
 class PokemonPreview extends React.Component {
   constructor(props) {
@@ -34,22 +39,25 @@ class PokemonPreview extends React.Component {
       ? <div className='hero box' id={pokemon.name}>
         <div className="hero-head container level has-text-centered">
           <div className="level-item">
-            <PokemonSprite pokemon={pokemon} />
+            <PokemonSprite name={pokemon.name} />
           </div>
           <div className="level-item">
             <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name}</p>
           </div>
           <div className="level-item">
-            <p className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_one}</p>
-            {pokemon.type_two && <p className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_two}</p>}
+            <p style={{backgroundColor: solveColor(pokemon.type_one) }} className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_one}</p>
+            {pokemon.type_two && <p style={{backgroundColor: solveColor(pokemon.type_two) }} className={`tag level-item is-large ${pokemon.type_one}`} disabled>{pokemon.type_two}</p>}
           </div>
         </div>
         <hr />
         <div className="hero-body has-text-centered">
           <div className="columns">
             <img className="image" src={pokemon.image_url} />
-            <div className="column">
-              <p className="subtitle is-2 is-right">{pokemon.description}</p>
+            <div className="column is-6">
+              <p className="subtitle is-6 is-right">{pokemon.description}</p>
+              <hr />
+              <StatsTable pokemon={pokemon} />
+              <Evolutions pokemon={pokemon} />
             </div>
           </div>
         </div>
@@ -57,7 +65,6 @@ class PokemonPreview extends React.Component {
           <div className="level-left">
             <a className="button is-info is-inverted level-item" href={`https://bulbapedia.bulbagarden.net/wiki/${pokemon.name}_(Pok%C3%A9mon)`}>View on Bulbapedia</a>
             <a className="button is-info is-inverted level-item" href={`http://www.smogon.com/dex/sm/pokemon/${pokemon.name.toLowerCase()}/`}>View on Smogon</a>
-
           </div>
           {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
         </div>
