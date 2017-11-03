@@ -86,9 +86,13 @@ const solveStage = ($, pokemon) => {
       else for (let i = 0; i < last.length; i++) evolvesInto.push(last[i].attribs.alt)
       break;
     case 2:
+      console.log(middle.length, "middle");
       if (first.length == atIndex + 1) evolvesFrom.push(first[atIndex].attribs.alt)
       else evolvesFrom.push(first[0].attribs.alt)
-      if (middle.length != 0) evolvesInto.push(last[atIndex].attribs.alt)
+      if (middle.length != 0) {
+        if (middle.length == last.length) evolvesInto.push(last[atIndex].attribs.alt)
+        else for (let i=0; i<last.length; i++) evolvesInto.push(last[i].attribs.alt)
+      }
       break;
     case 3:
       if (first[atIndex]) evolvesFrom.push(middle[atIndex].attribs.alt)
@@ -201,7 +205,7 @@ function getPokemonBaseData(idx, arr) {
     // if (pokemon && pokemon.hasOwnProperty('name') && pokemon.hasOwnProperty('description') && pokemon.hasOwnProperty('image_url')) resolve (pokemon)
     // else {
       request
-      .get('https://www.pokemon.com/us/pokedex/' + 'jolteon')
+      .get('https://www.pokemon.com/us/pokedex/' + 'poliwhirl')
       .then(res => {
         var $ = cheerio.load(res.text)
         var pokemon = getPokemon($)
