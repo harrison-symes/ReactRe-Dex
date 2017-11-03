@@ -43,36 +43,60 @@ const getDescription = ($) => $('.version-y')[0].children[0].data.split(' ').fil
 
 const getStages = ($) => {
   const stageData = $('.pokedex-pokemon-evolution')[0].attribs.class.split(' ')[2]
+  console.log({stageData});
   switch (stageData) {
     case 'evolution-three':
       return 3
     case 'evolution-two':
       return 2
-    defaut:
+    case 'evolution-two':
+      return 1
+    default:
       return 1
   }
 }
 
 const solveStage = ($, pokemon) => {
   var evolutions = $('.evolution-profile').find('img')
-  var stage = 1
-  for (var i = 0; i < evolutions.length; i++) {
-    // console.log(i, evolutions[i]);
-    if (evolutions[i].attribs.alt == pokemon.name) stage = i+1
+  var first = $('.evolution-profile').find('.first').find('img')
+  var middle = $('.evolution-profile').find('.middle').find('img')
+  var last = $('.evolution-profile').find('.last').find('img')
+  // console.log({first, middle, last});
+  var stage = null
+  var atIndex
+  for (var i = 0; i < first.length; i++) if(first[i].attribs.alt === pokemon.name) {
+    stage = 1; atIndex = i;
   }
-  var evolvesFrom = null
-  var evolvesInto = null
+  for (var j = 0; j < middle.length; j++) if(middle[j].attribs.alt === pokemon.name) {
+    stage = 2; atIndex = j
+  }
+  for (var k = 0; k < last.length; k++) if(last[k].attribs.alt === pokemon.name) {
+    middle.length == 0 ? stage = 2 : stage = 3
+    atIndex = k
+  }
+
+  console.log({stage, atIndex});
+
+  var evolvesFrom = []
+  var evolvesInto = []
+
   switch(stage) {
     case 1:
-      evolvesInto = evolutions[stage] ? evolutions[stage].attribs.alt : null
+      if (middle.length != 0) for (let i = 0; i < middle.length; i++) evolvesInto.push(middle[i].attribs.alt)
+      else for (let i = 0; i < last.length; i++) evolvesInto.push(last[i].attribs.alt)
+      break;
     case 2:
-      evolvesInto = evolutions[stage] ? evolutions[stage].attribs.alt : null
-      evolvesFrom = evolutions[stage - 2] ? evolutions[stage - 2].attribs.alt : null
+      if (first.length == atIndex + 1) evolvesFrom.push(first[atIndex].attribs.alt)
+      else evolvesFrom.push(first[0].attribs.alt)
+      if (middle.length != 0) evolvesInto.push(last[atIndex].attribs.alt)
+      break;
     case 3:
-      evolvesFrom = evolutions[stage - 2] ? evolutions[stage - 2].attribs.alt : null
+      if (first[atIndex]) evolvesFrom.push(middle[atIndex].attribs.alt)
+      break;
     default:
       break;
   }
+  console.log({evolvesInto, evolvesFrom, atIndex});
   pokemon.evolvesInto = evolvesInto
   pokemon.evolvesFrom = evolvesFrom
   pokemon.stage = stage
@@ -83,8 +107,6 @@ const getStageData = ($, pokemon) => {
   solveStage ($, pokemon)
   return pokemon
 }
-
-
 
 const getPokemon = ($) => {
   let pokemon = {
@@ -100,6 +122,36 @@ const getPokemon = ($) => {
 
 const getType = ($) => {
   return 'placeholder'
+}
+
+const getStats = ($, pokemon) => {
+  const stats = $('.PokemonStats').find('tbody').find('tr')
+  for (let i = 0; i < stats.length; i++) {
+    const stat = stats[i].children[0].children[0].data
+    const value = stats[i].children[1].children[0].data
+    switch (stat) {
+      case 'HP:':
+        pokemon.HP = value
+      case 'Attack:':
+        pokemon.Attack = value
+      case 'Defense:':
+        pokemon.Defense = value
+      case 'Sp. Atk:':
+        pokemon.SpAtk = value
+      case 'Sp. Def:':
+        pokemon.SpDef = value
+      case 'Speed:':
+        pokemon.Speed = value
+      default:
+        break;
+    }
+  }
+}
+
+const getTypes = ($, pokemon) => {
+  const list = $('.PokemonSummary-types').find('.TypeList').find('.Type')
+  pokemon.type_one = list[0].children[0].data
+  pokemon.type_two = list[1] ? list[1].children[0].data : null
 }
 
 const getSmogonData = (pokemon, tries = 0) => {
@@ -122,33 +174,9 @@ const getSmogonData = (pokemon, tries = 0) => {
         // console.log(Browser.html())
         const $ = cheerio.load(Browser.html())
         // console.log($('ul'))
-        var list = $('.PokemonSummary-types').find('.TypeList').find('.Type')
-        pokemon.type_one = list[0].children[0].data
-        pokemon.type_two = list[1] ? list[1].children[0].data : null
-        var stats = $('.PokemonStats').find('tbody').find('tr')
-        for (let i = 0; i < stats.length; i++) {
-          console.log(stats.length);
-          const stat = stats[i].children[0].children[0].data
-          const value = stats[i].children[1].children[0].data
-          console.log({stat, value});
-          switch (stat) {
-            case 'HP:':
-              pokemon.HP = value
-            case 'Attack:':
-              pokemon.Attack = value
-            case 'Defense:':
-              pokemon.Defense = value
-            case 'Sp. Atk:':
-              pokemon.SpAtk = value
-            case 'Sp. Def:':
-              pokemon.SpDef = value
-            case 'Speed:':
-              pokemon.Speed = value
-            default:
-              break;
-          }
-        }
-        console.log(pokemon)
+        getStats($, pokemon)
+        getTypes($, pokemon)
+        console.log({pokemon});
         resolve(pokemon)
 
       })
@@ -173,7 +201,7 @@ function getPokemonBaseData(idx, arr) {
     // if (pokemon && pokemon.hasOwnProperty('name') && pokemon.hasOwnProperty('description') && pokemon.hasOwnProperty('image_url')) resolve (pokemon)
     // else {
       request
-      .get('https://www.pokemon.com/us/pokedex/' + idx)
+      .get('https://www.pokemon.com/us/pokedex/' + 'jolteon')
       .then(res => {
         var $ = cheerio.load(res.text)
         var pokemon = getPokemon($)

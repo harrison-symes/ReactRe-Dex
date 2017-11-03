@@ -52,7 +52,7 @@ class PokemonPreview extends React.Component {
         <hr />
         <div className="hero-body has-text-centered">
           <div className="columns">
-            <img className="image" src={pokemon.image_url} />
+            <img className="image column" src={pokemon.image_url} />
             <div className="column is-6">
               <p className="subtitle is-6 is-right">{pokemon.description}</p>
               <hr />
