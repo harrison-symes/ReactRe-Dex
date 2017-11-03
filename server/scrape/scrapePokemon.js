@@ -205,7 +205,7 @@ function getPokemonBaseData(idx, arr) {
     // if (pokemon && pokemon.hasOwnProperty('name') && pokemon.hasOwnProperty('description') && pokemon.hasOwnProperty('image_url')) resolve (pokemon)
     // else {
       request
-      .get('https://www.pokemon.com/us/pokedex/' + 'poliwhirl')
+      .get('https://www.pokemon.com/us/pokedex/' + idx)
       .then(res => {
         var $ = cheerio.load(res.text)
         var pokemon = getPokemon($)
