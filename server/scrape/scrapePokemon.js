@@ -45,18 +45,20 @@ const getStages = ($) => {
   const stageData = $('.pokedex-pokemon-evolution')[0].attribs.class.split(' ')[2]
   console.log({stageData});
   switch (stageData) {
-    case 'evolution-three':
-      return 3
-    case 'evolution-two':
-      return 2
-    case 'evolution-two':
-      return 1
-    default:
-      return 1
+    case 'evolution-one': return 1
+    case 'evolution-two': return 2
+    case 'evolution-three': return 3
+    case 'evolution-four': return 2
+    case 'evolution-five': return 3
+    case 'evolution-six': return 3
+    case 'evolution-seven': return 2
+    case 'evolution-eight': return 2
+    default: return 1
   }
 }
 
 const solveStage = ($, pokemon) => {
+  console.log(pokemon.stages, 'stages')
   var evolutions = $('.evolution-profile').find('img')
   var first = $('.evolution-profile').find('.first').find('img')
   var middle = $('.evolution-profile').find('.middle').find('img')
@@ -205,7 +207,7 @@ function getPokemonBaseData(idx, arr) {
     // if (pokemon && pokemon.hasOwnProperty('name') && pokemon.hasOwnProperty('description') && pokemon.hasOwnProperty('image_url')) resolve (pokemon)
     // else {
       request
-      .get('https://www.pokemon.com/us/pokedex/' + idx)
+      .get('https://www.pokemon.com/us/pokedex/' + 'cosmoem')
       .then(res => {
         var $ = cheerio.load(res.text)
         var pokemon = getPokemon($)
