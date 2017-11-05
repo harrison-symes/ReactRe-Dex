@@ -6,37 +6,38 @@ var path = require('path')
 var zombie = require("zombie");
 zombie.waitDuration = '30s'
 
+var browsers = 0
+var browserLimit = 10
+var pokemonLength = 10
+
+var nock = require('nock')
+
+nock('http://pagead2.googlesyndication.com')
+.get('/pagead/js/adsbygoogle.js')
+.times(Math.Infinity)
+.reply(200, '{}')
+
 start()
 
 function start () {
-  fs.readFile(path.join(__dirname, '/pokemans.txt'), 'utf8', (err, data) => {
-    if (err) {
-      console.log(err)
-      writeFile([])
-      .then(() => start())
-    } else {
-      var arr = JSON.parse(data).pokemon
-      console.log(arr.length)
-      console.log(process.argv)
-      Promise.all([
-        Array(800).fill(0).map((e, i) => getImageRecursive(i + 1, arr))
-      ])
+  writeFile([])
+  .then(() => {
+    var arr = []
+    console.log(arr.length)
+    console.log(process.argv)
+    Promise.all([
+      Array(pokemonLength).fill(0).map((e, i) => getImageRecursive(i + 1, arr))
+    ])
       .then(() => isDoneRecursive(arr))
       .then(message => console.log(message))
-      // getImageRecursive(process.argv[2] === 'cont' ? arr.length : Number(process.argv[2]) ||  1, arr)
-      // .then(pokemon => {
-      //   console.log(pokemon.length)
-      //   writeFile(pokemon)
-      //   .then(message => console.log('done!'))
-      // })
-    }
   })
 }
 
 function isDoneRecursive(arr) {
   return new Promise(function(resolve, reject) {
-    if (arr.length == 800) resolve('FINISHED!')
-    else setTimeout(() => resolve(isDoneRecursive(arr)), 10000)
+    writeFile(arr)
+    console.log(arr.length, pokemonLength - arr.length, "to go");
+    setTimeout(() => resolve(isDoneRecursive(arr)), 10000)
   });
 }
 
@@ -113,7 +114,21 @@ const solveStage = ($, pokemon) => {
     default:
       break;
   }
+
+  evolvesInto.map(evolution => {
+    if (evolution == 'Nidoran♂') return 'Nidoran-M'
+    else if (evolution == 'Nidoran♀') return  'Nidoran-F'
+    else return evolution
+  })
+
+  evolvesFrom.map(evolution => {
+    if (evolution == 'Nidoran♂') return 'Nidoran-M'
+    else if (evolution == 'Nidoran♀') return  'Nidoran-F'
+    else return evolution
+  })
+
   pokemon.evolvesInto = JSON.stringify(evolvesInto)
+
   pokemon.evolvesFrom = JSON.stringify(evolvesFrom)
   pokemon.stage = stage
 }
@@ -177,70 +192,72 @@ const getTypes = ($, pokemon) => {
   if (pokemon.type_one == pokemon.type_two) pokemon.type_two = null
 }
 
-const getSmogonData = (pokemon) => {
+const getSmogonData = (pokemon, tries = 0) => {
   return new Promise(function(resolve, reject) {
-    var nock = require('nock')
-
-    nock('http://pagead2.googlesyndication.com')
-    .get('/pagead/js/adsbygoogle.js')
-    .times(Math.Infinity)
-    .reply(200, '{}')
-
-
-    console.log("starting site", pokemon.name);
-    const Browser = new zombie()
-    Browser.visit("http://www.smogon.com/dex/sm/pokemon/" + pokemon.name)
-    .then(() => {
-      Browser.wait()
+    if (browsers >= browserLimit) setTimeout(() => resolve(getSmogonData(pokemon, tries)), 1000)
+    else {
+      console.log("starting site", pokemon.name, tries, browsers);
+      const Browser = new zombie()
+      browsers++
+      Browser.visit("http://www.smogon.com/dex/sm/pokemon/" + pokemon.name)
       .then(() => {
-        // console.log(Browser.html())
-        const $ = cheerio.load(Browser.html())
-        // console.log($('ul'))
-        getStats($, pokemon)
-        getTypes($, pokemon)
-        pokemon.oriGen = getOriGen($)
-        console.log({pokemon});
-        resolve(pokemon)
-
+        Browser.wait()
+        .then(() => {
+          // console.log(Browser.html())
+          const $ = cheerio.load(Browser.html())
+          // console.log($('ul'))
+          getStats($, pokemon)
+          getTypes($, pokemon)
+          pokemon.oriGen = getOriGen($)
+          console.log({pokemon});
+          browsers--
+          resolve(pokemon)
+          // Browser.close()
+        })
+        .catch(() =>  setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000))
       })
-      .catch(() =>  setTimeout(() => resolve(getSmogonData(pokemon)), 5000))
-    })
-    .catch(() => setTimeout(() => resolve(getSmogonData(pokemon)), 5000))
+      .catch(() => setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000))
+    }
   });
   // return pokemon
+}
+
+function pokemonExists(idx, arr) {
+  var formatIdx = JSON.stringify(idx).split('')
+  while(formatIdx.length != 3) formatIdx.unshift('0')
+  formatIdx = formatIdx.join('')
+  return !!arr.find(pokemon => pokemon.dex_number === formatIdx)
 }
 
 function getPokemonBaseData(idx, arr) {
   return new Promise(function(resolve, reject) {
     if (!arr) arr = []
-    // const pokemon = arr.find(pokemon => pokemon.dex_number == idx)
-    // if (pokemon && pokemon.hasOwnProperty('name') && pokemon.hasOwnProperty('description') && pokemon.hasOwnProperty('image_url')) resolve (pokemon)
-    // else {
-      request
-      .get('https://www.pokemon.com/us/pokedex/' + idx)
-      .then(res => {
-        var $ = cheerio.load(res.text)
-        var pokemon = getPokemon($)
-        resolve(pokemon)
-      })
-      .catch(err => setTimeout(() => resolve(getPokemonBaseData(idx, arr)), 5000))
-    // }
+    request
+    .get('https://www.pokemon.com/us/pokedex/' + idx)
+    .then(res => {
+      var $ = cheerio.load(res.text)
+      var pokemon = getPokemon($)
+      resolve(pokemon)
+    })
+    .catch(err => setTimeout(() => resolve(getPokemonBaseData(idx, arr)), 5000))
   })
 }
 
 function getImageRecursive (idx, arr) {
   return new Promise(function(resolve, reject) {
     console.log(idx)
-    getPokemonBaseData(idx, arr)
+    if (false) resolve(arr[idx])
+    else {
+      getPokemonBaseData(idx, arr)
       .then(pokemon => {
         getSmogonData(pokemon)
         .then((pokemon) => {
           arr[idx - 1] = pokemon
-          writeFile(arr)
-          .then(message => console.log(message))
-          .catch(err => {
-            console.log(err)
-          })
+          // writeFile(arr)
+          // .then(message => console.log(message))
+          // .catch(err => {
+          //   console.log(err)
+          // })
           resolve()
           // if (idx >= 805) resolve(arr)
           // else resolve(getImageRecursive(idx + 1, arr))
@@ -250,5 +267,6 @@ function getImageRecursive (idx, arr) {
         console.log(err)
         resolve(getImageRecursive(idx, arr))
       })
+    }
   })
 }
