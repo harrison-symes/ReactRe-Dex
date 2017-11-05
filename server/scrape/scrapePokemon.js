@@ -125,7 +125,7 @@ const solveStage = ($, pokemon) => {
   })
   evolvesInto = evolvesInto.map(name => {
     if (pokemon.name == 'Nidoran♂') return 'Nidoran-M'
-    else if (pokemon.name == 'Nidoran♀') return 'Nidoran-F'
+    else if (pokemon.name == 'Nidoran♀') return  'Nidoran-F'
     else return name
   })
   evolvesFrom = evolvesFrom.map(name => {
