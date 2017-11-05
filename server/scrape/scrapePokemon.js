@@ -114,6 +114,10 @@ const getStageData = ($, pokemon) => {
   return pokemon
 }
 
+const getOriGen = ($) => {
+  return $('.OtherGensList').find('li')[0].children[0].children[0].data
+}
+
 const getPokemon = ($) => {
   let pokemon = {
     image_url: getImage($),
@@ -182,6 +186,7 @@ const getSmogonData = (pokemon, tries = 0) => {
         // console.log($('ul'))
         getStats($, pokemon)
         getTypes($, pokemon)
+        pokemon.oriGen = getOriGen($)
         console.log({pokemon});
         resolve(pokemon)
 
@@ -207,7 +212,7 @@ function getPokemonBaseData(idx, arr) {
     // if (pokemon && pokemon.hasOwnProperty('name') && pokemon.hasOwnProperty('description') && pokemon.hasOwnProperty('image_url')) resolve (pokemon)
     // else {
       request
-      .get('https://www.pokemon.com/us/pokedex/' + 'cosmoem')
+      .get('https://www.pokemon.com/us/pokedex/' + idx)
       .then(res => {
         var $ = cheerio.load(res.text)
         var pokemon = getPokemon($)
