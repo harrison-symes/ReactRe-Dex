@@ -20,13 +20,16 @@ nock('http://pagead2.googlesyndication.com')
 start()
 
 function start () {
-  writeFile([])
-  .then(() => {
-    var arr = []
-    console.log(arr.length)
-    console.log(process.argv)
-    getImageRecursive(1, arr)
+  fs.readFile(path.join(__dirname, '/pokemans.txt'), 'utf8', (err, data) => {
+    if (err) writeFile([])
+      .then(() => start())
+    else {
+      var arr = JSON.parse(data).pokemon
+      console.log(arr.length)
+      console.log(process.argv)
+      getImageRecursive(arr.length, arr)
       .then(message => console.log(message))
+    }
   })
 }
 
@@ -218,9 +221,9 @@ const getSmogonData = (pokemon, tries = 0) => {
         resolve(pokemon)
         // Browser.close()
       })
-      .catch(() =>  setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000))
+      .catch(() => tries >= 20 ? resolve(pokemon) : setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000))
     })
-    .catch(() => setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000))
+    .catch(() => tries >= 20 ? resolve(pokemon) : setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000))
   });
   // return pokemon
 }
