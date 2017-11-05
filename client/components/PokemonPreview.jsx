@@ -39,7 +39,7 @@ class PokemonPreview extends React.Component {
       ? <div className='hero box' id={pokemon.name}>
         <div className="hero-head container level has-text-centered">
           <div className="level-item">
-            <PokemonSprite name={pokemon.name} />
+            <PokemonSprite name={pokemon.name} oriGen={pokemon.oriGen} />
           </div>
           <div className="level-item">
             <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name}</p>
@@ -57,7 +57,7 @@ class PokemonPreview extends React.Component {
               <p className="subtitle is-6 is-right">{pokemon.description}</p>
               <hr />
               <StatsTable pokemon={pokemon} />
-              <Evolutions pokemon={pokemon} />
+              {/* <Evolutions pokemon={pokemon} /> */}
             </div>
           </div>
         </div>
