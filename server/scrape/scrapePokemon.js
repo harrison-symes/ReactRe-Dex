@@ -110,7 +110,8 @@ const solveStage = ($, pokemon) => {
       }
       break;
     case 3:
-      if (first[atIndex]) evolvesFrom.push(middle[atIndex].attribs.alt)
+      if (first[atIndex] || middle[atIndex]) evolvesFrom.push(middle[atIndex].attribs.alt)
+      else evolvesFrom.push(middle[0].attribs.alt)
       break;
     default:
       break;
