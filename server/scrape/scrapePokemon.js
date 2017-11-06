@@ -27,18 +27,10 @@ function start () {
       var arr = JSON.parse(data).pokemon
       console.log(arr.length)
       console.log(process.argv)
-      getImageRecursive(arr.length, arr)
-      .then(message => console.log(message))
+      getImageRecursive(process.argv[2] ? Number(process.argv[2]) : arr.length, arr)
+      .then(message => console.log("done"))
     }
   })
-}
-
-function isDoneRecursive(arr) {
-  return new Promise(function(resolve, reject) {
-    writeFile(arr)
-    console.log(arr.length, pokemonLength - arr.length, "to go");
-    setTimeout(() => resolve(isDoneRecursive(arr)), 10000)
-  });
 }
 
 function writeFile(pokemon) {
@@ -81,13 +73,18 @@ const solveStage = ($, pokemon) => {
   var last = $('.evolution-profile').find('.last').find('img')
   var stage = null
   var atIndex
-  for (var i = 0; i < first.length; i++) if(first[i].attribs.alt === pokemon.name) {
+
+  var name = pokemon.name
+  if (name == 'Nidoran-F') name = "Nidoran♀"
+  if (name == 'Nidoran-M') name = "Nidoran♂"
+
+  for (var i = 0; i < first.length; i++) if(first[i].attribs.alt === name) {
     stage = 1; atIndex = i;
   }
-  for (var j = 0; j < middle.length; j++) if(middle[j].attribs.alt === pokemon.name) {
+  for (var j = 0; j < middle.length; j++) if(middle[j].attribs.alt === name) {
     stage = 2; atIndex = j
   }
-  for (var k = 0; k < last.length; k++) if(last[k].attribs.alt === pokemon.name) {
+  for (var k = 0; k < last.length; k++) if(last[k].attribs.alt === name) {
     middle.length == 0 ? stage = 2 : stage = 3
     atIndex = k
   }
@@ -115,27 +112,18 @@ const solveStage = ($, pokemon) => {
       break;
   }
 
-  evolvesInto.map(evolution => {
-    if (evolution == 'Nidoran♂') return 'Nidoran-M'
-    else if (evolution == 'Nidoran♀') return  'Nidoran-F'
-    else return evolution
-  })
 
-  evolvesFrom.map(evolution => {
-    if (evolution == 'Nidoran♂') return 'Nidoran-M'
-    else if (evolution == 'Nidoran♀') return  'Nidoran-F'
-    else return evolution
-  })
   evolvesInto = evolvesInto.map(name => {
-    if (pokemon.name == 'Nidoran♂') return 'Nidoran-M'
-    else if (pokemon.name == 'Nidoran♀') return  'Nidoran-F'
+    if (name == 'Nidoran♂') return 'Nidoran-M'
+    else if (name == 'Nidoran♀') return  'Nidoran-F'
     else return name
   })
   evolvesFrom = evolvesFrom.map(name => {
-    if (pokemon.name == 'Nidoran♂') return 'Nidoran-M'
-    else if (pokemon.name == 'Nidoran♀') return 'Nidoran-F'
+    if (name == 'Nidoran♂') return 'Nidoran-M'
+    else if (name == 'Nidoran♀') return 'Nidoran-F'
     else return name
   })
+  console.log({evolvesInto, evolvesFrom});
   pokemon.evolvesInto = JSON.stringify(evolvesInto)
 
   pokemon.evolvesFrom = JSON.stringify(evolvesFrom)

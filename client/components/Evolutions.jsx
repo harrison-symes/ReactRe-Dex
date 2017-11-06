@@ -39,8 +39,6 @@ function Evolutions ({pokemon, pokemonList, search}) {
   </div>
 }
 
-
-
 const mapStateToProps = ({pokemon}) => {
   return {
     pokemonList: pokemon
