@@ -57,7 +57,7 @@ class PokemonPreview extends React.Component {
               <p className="subtitle is-6 is-right">{pokemon.description}</p>
               <hr />
               <StatsTable pokemon={pokemon} />
-              {/* <Evolutions pokemon={pokemon} /> */}
+              <Evolutions pokemon={pokemon} />
             </div>
           </div>
         </div>
