@@ -63,7 +63,7 @@ export default function StatsTable ({pokemon}) {
       <TableRow highestStat={highestStat} value={SpAtk} statName={"SpAtk"} />
       <TableRow highestStat={highestStat} value={SpDef} statName={"SpDef"} />
       <TableRow highestStat={highestStat} value={Speed} statName={"Speed"} />
-      <TableRow highestStat={680} value={statTotal} statName={"BST"} />
+      <TableRow highestStat={780} value={statTotal} statName={"BST"} />
     </tbody>
   </table>
 }

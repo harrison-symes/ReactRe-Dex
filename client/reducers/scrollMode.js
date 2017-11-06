@@ -6,6 +6,8 @@ export default function isScrollMode (state = false, action) {
       return false
     case 'HARD_SEARCH':
       return true
+    case 'RESET_SEARCH':
+      return false
     default:
       return state
   }
