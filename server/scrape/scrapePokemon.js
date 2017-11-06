@@ -179,12 +179,12 @@ const getStats = ($, pokemon) => {
     const value = stats[i].children[1].children[0].data
     console.log({stat, value});
     switch (stat) {
-      case 'HP:': if(!pokemon.hasOwnProperty('HP')) pokemon.HP=value
-      case 'Attack:': if(!pokemon.hasOwnProperty('Attack')) pokemon.Attack=value
-      case 'Defense:': if(!pokemon.hasOwnProperty('Defense')) pokemon.Defense=value
-      case 'Sp. Atk:': if(!pokemon.hasOwnProperty('SpAtk')) pokemon.SpAtk=value
-      case 'Sp. Def:': if(!pokemon.hasOwnProperty('SpDef')) pokemon.SpDef=value
-      case 'Speed:': if (!pokemon.hasOwnProperty('Speed')) pokemon.Speed=value
+      case 'HP:': if(!pokemon.hasOwnProperty('HP')) pokemon.HP=value; break;
+      case 'Attack:': if(!pokemon.hasOwnProperty('Attack')) pokemon.Attack=value; break;
+      case 'Defense:': if(!pokemon.hasOwnProperty('Defense')) pokemon.Defense=value; break;
+      case 'Sp. Atk:': if(!pokemon.hasOwnProperty('SpAtk')) pokemon.SpAtk=value; break;
+      case 'Sp. Def:': if(!pokemon.hasOwnProperty('SpDef')) pokemon.SpDef=value; break;
+      case 'Speed:': if (!pokemon.hasOwnProperty('Speed')) pokemon.Speed=value; break;
       default: break;
     }
   }
