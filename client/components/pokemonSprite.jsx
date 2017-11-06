@@ -21,18 +21,19 @@ export default class PokemonSprite extends React.Component {
     this.setState({gen: e.target.value})
   }
   solveImage(gen) {
-    const {name} = this.props
+    let {name, oriGen} = this.props
+    name = name.split('').map(char => char == '.' ? "_" : char).join('')
     const imageClass = ""
-    switch (gen) {
-      case 'rb':
+    switch (oriGen) {
+      case 'RB':
         return <img className={imageClass} src={`http://www.smogon.com/dex/media/sprites/rb/${name.toLowerCase()}.png`} />
-      case 'gs':
+      case 'GS':
         return <img className={imageClass} src={`http://www.smogon.com/dex/media/sprites/c/${name.toLowerCase()}.gif`} />
-      case 'rs':
+      case 'RS':
         return <img className={imageClass} src={`http://www.smogon.com/dex/media/sprites/rs/${name.toLowerCase()}.png`} />
-      case 'dp':
+      case 'DP':
         return <img className={imageClass} src={`http://www.smogon.com/dex/media/sprites/dp/${name.toLowerCase()}.png`} />
-      case 'bw':
+      case 'BW':
         return <img className={imageClass} src={`http://www.smogon.com/dex/media/sprites/bw/${name.toLowerCase()}.gif`} />
       default:
         return <img className={imageClass} src={`http://www.smogon.com/dex/media/sprites/xy/${name.toLowerCase()}.gif`} />
@@ -40,17 +41,7 @@ export default class PokemonSprite extends React.Component {
   }
   render() {
     console.log(this.state);
-    return <div onMouseEnter={this.mouseOver} onMouseLeave={this.mouseOut}>
-      {this.state.showOptions &&
-        <ul className="column">
-          <li className="button is-small is-outline" onClick={this.changeGen} value="rb">RBG</li>
-          <li className="button is-small is-outline" onClick={this.changeGen} value="gs">GS</li>
-          <li className="button is-small is-outline" onClick={this.changeGen} value="rs">RSE</li>
-          <li className="button is-small is-outline" onClick={this.changeGen} value="dp">DPP</li>
-          <li className="button is-small is-outline" onClick={this.changeGen} value="bw">BW</li>
-          <li className="button is-small is-outline" onClick={this.changeGen} value="xy">XY</li>
-        </ul>
-      }
+    return <div>
       {this.solveImage(this.state.gen)}
     </div>
   }

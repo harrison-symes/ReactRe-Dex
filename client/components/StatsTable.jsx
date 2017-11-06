@@ -4,11 +4,7 @@ function solveHighestStat (pokemon) {
   const {HP, Attack, Defense, SpAtk, SpDef, Speed} = pokemon
   const stats = {HP, Attack, Defense, SpAtk, SpDef, Speed}
   let highestStat = HP
-  for (let key in stats) {
-    console.log(key, stats[key], highestStat);
-    if (Number(stats[key]) > highestStat) highestStat = stats[key]
-    console.log({highestStat});
-  }
+  for (let key in stats) if (Number(stats[key]) > highestStat) highestStat = stats[key]
   return highestStat
 }
 
@@ -57,8 +53,8 @@ function TableRow ({statName, value, highestStat}) {
 
 export default function StatsTable ({pokemon}) {
   const {HP, Attack, Defense, SpAtk, SpDef, Speed} = pokemon
+  const statTotal = Number(HP) + Number(Attack) + Number(Defense) + Number(SpAtk) + Number(SpDef) + Number(Speed)
   let highestStat = solveHighestStat(pokemon)
-  console.log(highestStat);
   return <table className="table is-fullwidth is-bordered is-narrow is-striped is-hoverable">
     <tbody className="tbody">
       <TableRow highestStat={highestStat} value={HP} statName={"HP"} />
@@ -67,6 +63,7 @@ export default function StatsTable ({pokemon}) {
       <TableRow highestStat={highestStat} value={SpAtk} statName={"SpAtk"} />
       <TableRow highestStat={highestStat} value={SpDef} statName={"SpDef"} />
       <TableRow highestStat={highestStat} value={Speed} statName={"Speed"} />
+      <TableRow highestStat={780} value={statTotal} statName={"BST"} />
     </tbody>
   </table>
 }

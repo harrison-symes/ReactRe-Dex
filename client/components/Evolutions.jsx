@@ -2,28 +2,40 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PokemonSprite from './pokemonSprite'
 
-
 function Evolutions ({pokemon, pokemonList, search}) {
   const {evolvesFrom, evolvesInto} = pokemon
-  const DisplayName = ({name}) =>  <a className="subtitle is-4">{name}</a>
+  const DisplayName = ({name}) =>  <a className="subtitle is-6">{name}</a>
   const DisplayStage = ({stage, isCurrent}) => <p className="subtitle is-6">{isCurrent ? "Current " : ""} Stage {stage}</p>
 
-  const DisplayChainItem = ({pokemon, isCurrent}) => <div onClick={() => search(pokemon.name)}>
-    <DisplayStage stage={pokemon.stage} isCurrent={isCurrent} />
-    <PokemonSprite name={pokemon.name} />
+  const DisplayChainItem = ({pokemon}) => <div className="column box" style={{cursor: 'pointer'}} onClick={() => search(pokemon.name)}>
+    <PokemonSprite name={pokemon.name} oriGen={pokemon.oriGen} />
     <DisplayName name={pokemon.name} />
   </div>
 
-  const nextStage = pokemonList.find(p => p.name==pokemon.evolvesInto)
-  const prevStage = pokemonList.find(p => p.name==pokemon.evolvesFrom)
+  const DisplayChain = ({array, stage}) =>
+    array.length > 0 ? <div className="column">
+      <DisplayStage stage={stage} />
+      {array.map(pokemon => <DisplayChainItem key={pokemon.dex_number} pokemon={pokemon} />)}
+    </div> : null
 
-  console.log({nextStage, prevStage});
+  const nextStages = JSON.parse(pokemon.evolvesInto).map(evolvesInto => pokemonList.find(listMon => listMon.name == evolvesInto))
+  const nextNextStages = []
+  nextStages.forEach(evolvesInto => JSON.parse(evolvesInto.evolvesInto).forEach(evolvesInto => nextNextStages.push(pokemonList.find(listMon => listMon.name == evolvesInto)) ))
+
+  const prevStages = JSON.parse(pokemon.evolvesFrom).map(evolvesFrom => pokemonList.find(listMon => listMon.name == evolvesFrom))
+  const prevPrevStages = []
+  prevStages.forEach(evolvesFrom => JSON.parse(evolvesFrom.evolvesFrom).forEach(evolvesFrom => prevPrevStages.push(pokemonList.find(listMon => listMon.name == evolvesFrom)) ))
+
+  console.log({nextStages, nextNextStages});
   return <div className="columns has-text-centered">
-    {pokemon.stage == 3 && <DisplayChainItem pokemon={pokemonList.find(p => p.name==prevStage.evolvesFrom)} />}
-    {pokemon.evolvesFrom && <DisplayChainItem pokemon={prevStage} />}
-    <DisplayChainItem pokemon={pokemon} isCurrent={true} />
-    {pokemon.evolvesInto && <DisplayChainItem pokemon={nextStage} />}
-    {pokemon.stage == 1 && pokemon.stages == 3 && <DisplayChainItem pokemon={pokemonList.find(p => p.name==nextStage.evolvesInto)} />}
+    <DisplayChain array={prevPrevStages} stage={pokemon.stage-2} />
+    <DisplayChain array={prevStages} stage={pokemon.stage-1} />
+    <div className="column">
+      <DisplayStage stage={pokemon.stage} isCurrent={true} />
+      <DisplayChainItem pokemon={pokemon} />
+    </div>
+    <DisplayChain array={nextStages} stage={pokemon.stage+1} />
+    <DisplayChain array={nextNextStages} stage={pokemon.stage+2} />
   </div>
 }
 
@@ -35,7 +47,7 @@ const mapStateToProps = ({pokemon}) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    search: (search) => dispatch({type: 'UPDATE_SEARCH', search})
+    search: (search) => dispatch({type: 'HARD_SEARCH', search})
   }
 }
 

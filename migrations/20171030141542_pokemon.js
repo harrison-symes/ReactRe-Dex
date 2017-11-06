@@ -17,6 +17,7 @@ exports.up = function(knex, Promise) {
     table.string('evolvesInto')
     table.integer('stage')
     table.integer('stages')
+    table.string('oriGen')
   })
 }
 
