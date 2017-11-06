@@ -53,6 +53,7 @@ function TableRow ({statName, value, highestStat}) {
 
 export default function StatsTable ({pokemon}) {
   const {HP, Attack, Defense, SpAtk, SpDef, Speed} = pokemon
+  const statTotal = Number(HP) + Number(Attack) + Number(Defense) + Number(SpAtk) + Number(SpDef) + Number(Speed)
   let highestStat = solveHighestStat(pokemon)
   return <table className="table is-fullwidth is-bordered is-narrow is-striped is-hoverable">
     <tbody className="tbody">
@@ -62,6 +63,7 @@ export default function StatsTable ({pokemon}) {
       <TableRow highestStat={highestStat} value={SpAtk} statName={"SpAtk"} />
       <TableRow highestStat={highestStat} value={SpDef} statName={"SpDef"} />
       <TableRow highestStat={highestStat} value={Speed} statName={"Speed"} />
+      <TableRow highestStat={680} value={statTotal} statName={"BST"} />
     </tbody>
   </table>
 }
