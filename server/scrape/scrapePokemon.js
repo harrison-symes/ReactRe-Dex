@@ -77,6 +77,7 @@ const solveStage = ($, pokemon) => {
   var name = pokemon.name
   if (name == 'Nidoran-F') name = "Nidoran♀"
   if (name == 'Nidoran-M') name = "Nidoran♂"
+  if (name == 'Flabebe') name = "Flabébé"
 
   for (var i = 0; i < first.length; i++) if(first[i].attribs.alt === name) {
     stage = 1; atIndex = i;
@@ -116,11 +117,13 @@ const solveStage = ($, pokemon) => {
   evolvesInto = evolvesInto.map(name => {
     if (name == 'Nidoran♂') return 'Nidoran-M'
     else if (name == 'Nidoran♀') return  'Nidoran-F'
+    else if (name == "Flabébé") return "Flabebe"
     else return name
   })
   evolvesFrom = evolvesFrom.map(name => {
     if (name == 'Nidoran♂') return 'Nidoran-M'
     else if (name == 'Nidoran♀') return 'Nidoran-F'
+    else if (name == "Flabébé") return "Flabebe"
     else return name
   })
   console.log({evolvesInto, evolvesFrom});
@@ -150,6 +153,7 @@ const getPokemon = ($) => {
   getStageData($, pokemon)
   if (pokemon.name == 'Nidoran♂') pokemon.name = 'Nidoran-M'
   if (pokemon.name == 'Nidoran♀') pokemon.name = 'Nidoran-F'
+  if (pokemon.name == 'Flabébé') pokemon.name = 'Flabebe'
   return pokemon
 }
 
