@@ -21,7 +21,7 @@ class PokemonPreview extends React.Component {
   }
   componentDidUpdate() {
     if (this.state.queueJump) {
-      jump(`#${this.props.pokemon.name}`)
+      jump(`#${this.props.pokemon.name.split('').filter(char => char != '.').join('')}`)
       this.setState({queueJump: false})
     }
   }
@@ -36,7 +36,7 @@ class PokemonPreview extends React.Component {
     const {isClicked} = this.state
     const size = isClicked ? 'is-12' : 'is-4'
     return isClicked || scrollMode
-      ? <div className='hero box' id={pokemon.name}>
+      ? <div className='hero box' id={pokemon.name.split('').filter(char => char != '.').join('')}>
         <div className="hero-head container level has-text-centered">
           <div className="level-item">
             <PokemonSprite name={pokemon.name} oriGen={pokemon.oriGen} />
@@ -53,8 +53,8 @@ class PokemonPreview extends React.Component {
         <div className="hero-body has-text-centered">
           <div className="columns">
             <div className="column">
-              <img className="image" src={pokemon.image_url} />
               <p className="subtitle is-6 is-right">{pokemon.description}</p>
+              <img className="image" src={pokemon.image_url} />
             </div>
             <div className="column is-6">
               <StatsTable pokemon={pokemon} />

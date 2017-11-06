@@ -78,6 +78,7 @@ const solveStage = ($, pokemon) => {
   if (name == 'Nidoran-F') name = "Nidoran♀"
   if (name == 'Nidoran-M') name = "Nidoran♂"
   if (name == 'Flabebe') name = "Flabébé"
+  if (name == 'Flabebe') name = "Flabébé"
 
   for (var i = 0; i < first.length; i++) if(first[i].attribs.alt === name) {
     stage = 1; atIndex = i;
