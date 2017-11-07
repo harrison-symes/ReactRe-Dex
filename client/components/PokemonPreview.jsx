@@ -6,6 +6,7 @@ import jump from 'jump.js'
 import PokemonSprite from './pokemonSprite'
 import StatsTable from './StatsTable'
 import Evolutions from './Evolutions'
+import RenderMegas from './Megas'
 
 import {solveColor} from '../utils/solveTypeColor'
 
@@ -14,7 +15,8 @@ class PokemonPreview extends React.Component {
     super(props)
     this.state = {
       isClicked: false,
-      queueJump: false
+      queueJump: false,
+      megas: []
     }
     this.click = this.click.bind(this)
     this.unClick = this.unClick.bind(this)
@@ -32,7 +34,7 @@ class PokemonPreview extends React.Component {
     this.setState({isClicked: false})
   }
   render() {
-    const {pokemon, scrollMode, searchType} = this.props
+    const {pokemon, scrollMode, searchType, megas} = this.props
     const {isClicked} = this.state
     const size = isClicked ? 'is-12' : 'is-4'
     return isClicked || scrollMode
@@ -61,6 +63,7 @@ class PokemonPreview extends React.Component {
               <Evolutions pokemon={pokemon} />
             </div>
           </div>
+          <RenderMegas megas={megas} />
         </div>
         <div className="hero-foot level">
           <div className="level-left">
@@ -77,9 +80,10 @@ class PokemonPreview extends React.Component {
   }
 }
 
-const mapStateToProps = ({scrollMode}) => {
+const mapStateToProps = ({scrollMode, megas}, props) => {
   return {
-    scrollMode
+    scrollMode,
+    megas: megas.filter(mega => mega.dex_number ==props.pokemon.dex_number)
   }
 }
 

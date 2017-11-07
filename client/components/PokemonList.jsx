@@ -6,7 +6,7 @@ import jump from 'jump.js'
 import PokemonPreview from './PokemonPreview'
 import SearchBar from './SearchBar'
 import Pagination from './Pagination'
-import {getPokemonRequest, toggleScrollModeAction} from '../actions/pokemon'
+import {getPokemonRequest, toggleScrollModeAction, getMegasRequest} from '../actions/pokemon'
 
 class PokemonList extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class PokemonList extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch(getPokemonRequest())
+    this.props.dispatch(getMegasRequest())
   }
   filterPokemon(pokemon) {
     const search = this.props.search.toLowerCase()

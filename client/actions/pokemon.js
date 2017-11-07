@@ -17,6 +17,22 @@ export function getPokemonRequest () {
   }
 }
 
+export function receiveMegasAction (megas) {
+  return {
+    type: 'RECEIVE_MEGAS',
+    megas
+  }
+}
+
+export function getMegasRequest () {
+  return dispatch => {
+    request
+      .get('/api/v1/pokemon/megas')
+      .then(res => {
+        dispatch(receiveMegasAction(res.body))
+      })
+  }
+}
 export function toggleScrollModeAction () {
   return {
     type: 'TOGGLE_SCROLL_MODE'

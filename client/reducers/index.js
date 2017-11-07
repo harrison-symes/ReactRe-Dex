@@ -5,11 +5,13 @@ import pokemon from './pokemon'
 import scrollMode from './scrollMode'
 import search from './search'
 import page from './page'
+import megas from './megas'
 
 export default combineReducers({
   auth,
   pokemon,
   scrollMode,
   search,
-  page
+  page,
+  megas
 })

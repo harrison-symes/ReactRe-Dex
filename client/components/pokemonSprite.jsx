@@ -28,6 +28,14 @@ export default class PokemonSprite extends React.Component {
       name[0] = "Tapu"
       name = name.join('_')
     }
+    if (name.includes('Mega')) {
+      name = name.split(' ')
+      name = `${name[1]}-mega${name[2] ? "-" + name[2] : ""}`
+    }
+    if (name.includes('Primal')) {
+      name = name.split(' ')
+      name = `${name[1]}-primal`
+    }
     const imageClass = ""
     switch (oriGen) {
       case 'RB':
