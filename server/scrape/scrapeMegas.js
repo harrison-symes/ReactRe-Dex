@@ -40,13 +40,23 @@ function writeFile(arr) {
   });
 }
 
-function getMegas (arr) {
+function getMegas (megas) {
   return new Promise(function(resolve, reject) {
     request
       .get("https://pokemondb.net/x-y/mega-evolution")
       .then(res => {
         const $ = cheerio.load(res.text)
-        console.log($('.infocard-tall-list').find('.infocard-tall'));
+        const cards = $('.infocard-tall-list').find('.infocard-tall')
+        for (var i = 0; i < cards.length; i++) {
+          const pokemon = {
+            name: cards[i].children[0].children[0].attribs.alt,
+            dex_number: cards[i].children[2].children[0].data.split('#').join(''),
+            type_one: cards[i].children[6].children[0].children[0].data,
+            type_two: cards[i].children[6].children.length === 3 ? cards[i].children[6].children[2].children[0].data : null
+          }
+          console.log(pokemon);
+        }
+
         resolve()
       })
 
