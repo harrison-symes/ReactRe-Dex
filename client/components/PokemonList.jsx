@@ -25,6 +25,12 @@ class PokemonList extends React.Component {
     const tier = this.props.searchTier
     // if (search.length == 0) return pokemon
     if (tier) pokemon = pokemon.filter(pokemon => pokemon.tier == tier)
+    if (this.props.searchType.length > 0) pokemon = pokemon.filter(pokemon => {
+      for (let idx in this.props.searchType) {
+        if (pokemon.type_one != this.props.searchType[idx] && pokemon.type_two != this.props.searchType[idx]) return false
+      }
+      return true
+    })
     if (search == 'mega') return pokemon.filter(pokemon => this.props.megas.find(mega => mega.dex_number == pokemon.dex_number))
     return pokemon.filter(mon =>
       mon.name.toLowerCase().includes(search)
@@ -54,7 +60,7 @@ class PokemonList extends React.Component {
   }
 }
 
-const mapStateToProps = ({pokemon, scrollMode, search, page, megas, searchTier}) => {
+const mapStateToProps = ({pokemon, scrollMode, search, page, megas, searchTier, searchType}) => {
   console.log(scrollMode);
   return {
     pokemon,
@@ -62,7 +68,8 @@ const mapStateToProps = ({pokemon, scrollMode, search, page, megas, searchTier})
     search,
     page,
     megas,
-    searchTier
+    searchTier,
+    searchType
   }
 }
 
