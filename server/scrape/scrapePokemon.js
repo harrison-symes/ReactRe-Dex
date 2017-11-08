@@ -218,7 +218,6 @@ const getSmogonData = (pokemon, tries = 0) => {
   return new Promise(function(resolve, reject) {
     console.log("starting site", pokemon.name, tries);
     const Browser = new zombie()
-    browsers++
     Browser.visit("http://www.smogon.com/dex/sm/pokemon/" + pokemon.name)
     .then(() => {
       Browser.wait()
@@ -231,8 +230,6 @@ const getSmogonData = (pokemon, tries = 0) => {
         pokemon.oriGen = getOriGen($)
         pokemon.tier = getTier($)
         getAbilties($, pokemon)
-        console.log({pokemon});
-        browsers--
         resolve(pokemon)
         // Browser.close()
       })

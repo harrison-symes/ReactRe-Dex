@@ -24,7 +24,8 @@ class PokemonList extends React.Component {
     const {searchGen, searchType} = this.props
     const search = this.props.search.toLowerCase()
     const tier = this.props.searchTier
-    if (search == 'krang') return [data]
+    if (search == 'krang') return Array(420).fill(0).map(() => Object.assign({}, data))
+    if (searchType[0] == "Krang") return Array(420).fill(0).map(() => Object.assign({}, data))
     if (tier) pokemon = pokemon.filter(pokemon => pokemon.tier == tier)
 
     if (this.props.searchType.length > 0) pokemon = pokemon.filter(pokemon => {
@@ -62,7 +63,7 @@ class PokemonList extends React.Component {
         <p className="subtitle is-3">{pagePokemon[0].name} (#{pagePokemon[0].dex_number}) -  {pagePokemon[pagePokemon.length - 1].name} (#{pagePokemon[pagePokemon.length - 1].dex_number})</p>
       </div>}
       <div className="pokemon-list section columns is-desktop-only is-multiline has-text-centered">
-        {pagePokemon.map((singlePokemon, i) => <PokemonPreview key={singlePokemon.dex_number} pokemon={singlePokemon} />)}
+        {pagePokemon.map((singlePokemon, i) => <PokemonPreview key={i} pokemon={singlePokemon} />)}
       </div>
       {pagination}
     </div>

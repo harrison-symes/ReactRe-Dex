@@ -22,6 +22,8 @@ class SearchBar extends Component {
   }
   render() {
     const {search, scrollMode, searchTier, searchedTypes, searchType, searchGen, searchForGen} = this.props
+    let typeList = types
+    if (search.toLowerCase() == "krang") typeList = types.map(() => "Krang")
     return <div className='container search-container'>
       <div className="level columns">
         <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
@@ -55,7 +57,7 @@ class SearchBar extends Component {
       </div>
       <div className="section">
         <div className="container columns is-multiline">
-          {types.map(type => <p onClick={() => searchType(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 has-text-centered`}>{type}</p>)}
+          {typeList.map(type => <p onClick={() => searchType(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 has-text-centered`}>{type}</p>)}
         </div>
       </div>
 

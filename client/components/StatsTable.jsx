@@ -30,6 +30,7 @@ class Progress extends React.Component {
   tickPercentage() {
     let {currentPerc, maxPerc, interval} = this.state
       currentPerc++
+      // if (currentPerc => 100) this.setState({currentPerc: 0})
       if (currentPerc >= maxPerc) {
         currentPerc = maxPerc
         clearInterval(interval)
