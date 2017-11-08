@@ -22,6 +22,8 @@ export default class PokemonSprite extends React.Component {
   }
   solveImage(gen) {
     let {name, oriGen} = this.props
+    if (name == "Krang") name = 'Ditto'
+
     name = name.split('').map(char => char == '.' ? "_" : char).join('')
     if (name.includes('Tapu')) {
       name = name.split('Tapu')

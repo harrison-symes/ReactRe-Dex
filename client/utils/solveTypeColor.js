@@ -57,6 +57,8 @@ export function solveColor (type) {
       return '#D1C17D'
     case 'Dark':
       return '#A29288'
+    case 'Krang':
+      return '#FA92B2'
     default:
       return 'light-grey'
   }

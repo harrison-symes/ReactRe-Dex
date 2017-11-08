@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import jump from 'jump.js'
-
+import data from '../secret/data'
 import PokemonPreview from './PokemonPreview'
 import SearchBar from './SearchBar'
 import Pagination from './Pagination'
@@ -24,7 +24,7 @@ class PokemonList extends React.Component {
     const {searchGen, searchType} = this.props
     const search = this.props.search.toLowerCase()
     const tier = this.props.searchTier
-
+    if (search == 'krang') return [data]
     if (tier) pokemon = pokemon.filter(pokemon => pokemon.tier == tier)
 
     if (this.props.searchType.length > 0) pokemon = pokemon.filter(pokemon => {

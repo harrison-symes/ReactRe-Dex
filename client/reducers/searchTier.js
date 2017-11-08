@@ -4,6 +4,8 @@ export default function tierReducer (state = null, action) {
       return action.tier
     case 'HARD_SEARCH':
       return null
+    case 'RESET_SEARCH':
+      return null
     default:
       return state
   }

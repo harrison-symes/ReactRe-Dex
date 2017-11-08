@@ -22,7 +22,7 @@ class SearchBar extends Component {
   }
   render() {
     const {search, scrollMode, searchTier, searchedTypes, searchType, searchGen, searchForGen} = this.props
-    return <div className='container'>
+    return <div className='container search-container'>
       <div className="level columns">
         <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
         <input className="input" type="text" value={search} name="search" onChange={this.updateSearch} />

@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import jump from 'jump.js'
 
-
 import PokemonSprite from './pokemonSprite'
 import StatsTable from './StatsTable'
 import Evolutions from './Evolutions'
@@ -83,9 +82,10 @@ class PokemonPreview extends React.Component {
           {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
         </div>
       </div>
-      : <div onClick={this.click} className={`box column is-4`}>
+      : <div onClick={this.click} className={`box column is-2`}>
+        <p className="subtitle is-3">#{pokemon.dex_number}</p>
         <img  className="media image" src={pokemon.image_url} />
-        <p className="subtitle is-3">#{pokemon.dex_number} - {pokemon.name}</p>
+        <p className="subtitle is-4">{pokemon.name}</p>
       </div>
   }
 }
