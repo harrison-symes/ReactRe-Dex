@@ -55,13 +55,14 @@ class PokemonPreview extends React.Component {
         <div className="hero-body has-text-centered">
           <div className="columns">
             <div className="column">
+              {pokemon.tier && <p style={{marginTop: 0}} className="subtitle is-1">{" "} Tier: {pokemon.tier}</p>}
+              <hr/>
               <p className="subtitle is-6 is-right">{pokemon.description}</p>
               <img className="image" src={pokemon.image_url} />
             </div>
             <div className="column is-6">
-              {pokemon.tier && <p style={{marginTop: 0}} className="subtitle is-1">{" "} Tier: {pokemon.tier}</p>}
-              <hr/>
               <h1 className="subtitle is-1">Abilties:</h1>
+              <hr />
               <div className="columns">
                 {pokemon.ability_one && <p className=" column subtitle">{pokemon.ability_one}</p>}
                 {pokemon.ability_two && <p className=" column subtitle">{pokemon.ability_two}</p>}

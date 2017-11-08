@@ -39,7 +39,7 @@ class Progress extends React.Component {
   }
   render() {
     const {maxPerc, currentPerc, color} = this.state
-    return <progress className={`progress ${color}`} style={{width: '20vw'}} max="100" value={currentPerc} >%{currentPerc}</progress>
+    return <progress className={`progress ${color}`} style={{width: '30vw'}} max="100" value={currentPerc} >%{currentPerc}</progress>
   }
 }
 
