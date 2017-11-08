@@ -21,7 +21,7 @@ class SearchBar extends Component {
     this.props.reset()
   }
   render() {
-    const {search, scrollMode, searchTier, searchedTypes, searchType} = this.props
+    const {search, scrollMode, searchTier, searchedTypes, searchType, searchGen, searchForGen} = this.props
     return <div className='container'>
       <div className="level columns">
         <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
@@ -38,6 +38,18 @@ class SearchBar extends Component {
             <option value={"Uber"} selected={searchTier == "Uber"}>Uber: The Nuts</option>
           </select>
         </div>
+        <div className="container">
+          <select onChange={(e) => searchForGen(e.target.value)} className="input has-text-centered">
+            <option value={null} selected={searchGen == null}>All Generations</option>
+            <option value={"RB"} selected={searchGen == "RB"}>RBGY (1): Red / Blue / Green / Yellow </option>
+            <option value={"GS"} selected={searchGen == "GS"}>GSC (2): Gold / Silver / Crystal</option>
+            <option value={"RS"} selected={searchGen == "RS"}>RSE (3): Ruby / Sapphire / Emerald </option>
+            <option value={"DP"} selected={searchGen == "DP"}>DPP (4): Diamond / Pearl / Platinum </option>
+            <option value={"BW"} selected={searchGen == "BW"}>BW (5): Black / White (1/2)</option>
+            <option value={"XY"} selected={searchGen == "XY"}>XY (6): X / Y</option>
+            <option value={"SM"} selected={searchTier == "SM"}>SM (7): Sun / Moon</option>
+          </select>
+        </div>
         {searchedTypes.map(type => <button onClick={() => this.props.searchType(type)} style={{backgroundColor: solveColor(type)}} className={`button column is-2 has-text-centered`}>{type}</button>)}
         <button onClick={this.reset} className="button is-warning">Reset</button>
       </div>
@@ -51,11 +63,12 @@ class SearchBar extends Component {
   }
 }
 
-const mapStateToProps = ({search, scrollMode, searchType}) => {
+const mapStateToProps = ({search, scrollMode, searchType, searchGen}) => {
   return {
     search,
     scrollMode,
-    searchedTypes: searchType
+    searchedTypes: searchType,
+    searchGen
   }
 }
 
@@ -65,7 +78,8 @@ const mapDispatchToProps = (dispatch) => {
     update: (search) => dispatch({type: 'UPDATE_SEARCH', search}),
     toggleScrollMode: () => dispatch(toggleScrollModeAction()),
     searchTier: (tier) => dispatch({type: 'SEARCH_TIER', tier}),
-    searchType: (type) => dispatch({type: 'SEARCH_TYPE', typeName: type})
+    searchType: (type) => dispatch({type: 'SEARCH_TYPE', typeName: type}),
+    searchForGen: (gen) => dispatch({type: 'SEARCH_GEN', gen})
   }
 }
 

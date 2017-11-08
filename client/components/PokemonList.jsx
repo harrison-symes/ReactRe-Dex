@@ -21,22 +21,31 @@ class PokemonList extends React.Component {
     this.props.dispatch(getMegasRequest())
   }
   filterPokemon(pokemon) {
+    const {searchGen, searchType} = this.props
     const search = this.props.search.toLowerCase()
     const tier = this.props.searchTier
-    // if (search.length == 0) return pokemon
+
     if (tier) pokemon = pokemon.filter(pokemon => pokemon.tier == tier)
+
     if (this.props.searchType.length > 0) pokemon = pokemon.filter(pokemon => {
       for (let idx in this.props.searchType) {
         if (pokemon.type_one != this.props.searchType[idx] && pokemon.type_two != this.props.searchType[idx]) return false
       }
       return true
     })
+
+    if (searchGen) pokemon = pokemon.filter(pokemon => pokemon.oriGen == searchGen)
+
     if (search == 'mega') return pokemon.filter(pokemon => this.props.megas.find(mega => mega.dex_number == pokemon.dex_number))
+
     return pokemon.filter(mon =>
       mon.name.toLowerCase().includes(search)
-      || mon.dex_number.toString().includes( search)
+      || mon.dex_number.toString().includes(search)
       || (mon.type_one && mon.type_one.toLowerCase() == search)
       || (mon.type_two && mon.type_two.toLowerCase() == search)
+      || (mon.ability_one && mon.ability_one.toLowerCase() == search)
+      || (mon.ability_two && mon.ability_two.toLowerCase() == search)
+      || (mon.ability_three && mon.ability_three.toLowerCase() == search)
     )
   }
   render() {
@@ -60,7 +69,7 @@ class PokemonList extends React.Component {
   }
 }
 
-const mapStateToProps = ({pokemon, scrollMode, search, page, megas, searchTier, searchType}) => {
+const mapStateToProps = ({pokemon, scrollMode, search, page, megas, searchTier, searchType, searchGen}) => {
   console.log(scrollMode);
   return {
     pokemon,
@@ -69,7 +78,8 @@ const mapStateToProps = ({pokemon, scrollMode, search, page, megas, searchTier, 
     page,
     megas,
     searchTier,
-    searchType
+    searchType,
+    searchGen
   }
 }
 

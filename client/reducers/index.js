@@ -8,6 +8,7 @@ import page from './page'
 import megas from './megas'
 import searchTier from './searchTier'
 import searchType from './searchType'
+import searchGen from './searchGen'
 
 export default combineReducers({
   auth,
@@ -17,5 +18,6 @@ export default combineReducers({
   page,
   megas,
   searchTier,
-  searchType
+  searchType,
+  searchGen
 })
