@@ -24,7 +24,12 @@ class PokemonList extends React.Component {
     const {searchGen, searchType} = this.props
     const search = this.props.search.toLowerCase()
     const tier = this.props.searchTier
-    if (search == 'krang') return Array(420).fill(0).map(() => Object.assign({}, data))
+    if (search == 'krang') {
+      pokemon =  Array(12600 + 1).fill(0).map(() => Object.assign({}, data))
+      pokemon[pokemon.length -1].dex_number = 420
+      pokemon[pokemon.length - 1].name = "Krang It"
+      return pokemon
+    }
     if (searchType[0] == "Krang") return Array(420).fill(0).map(() => Object.assign({}, data))
     if (tier) pokemon = pokemon.filter(pokemon => pokemon.tier == tier)
 
