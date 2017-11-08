@@ -6,6 +6,7 @@ import scrollMode from './scrollMode'
 import search from './search'
 import page from './page'
 import megas from './megas'
+import searchTier from './searchTier'
 
 export default combineReducers({
   auth,
@@ -13,5 +14,6 @@ export default combineReducers({
   scrollMode,
   search,
   page,
-  megas
+  megas,
+  searchTier
 })

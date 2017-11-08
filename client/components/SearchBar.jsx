@@ -21,16 +21,29 @@ class SearchBar extends Component {
     this.props.reset()
   }
   render() {
-    const {search, scrollMode} = this.props
+    const {search, scrollMode, searchTier} = this.props
     return <div className='container'>
       <div className="level">
         <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
         <input className="input" type="text" value={search} name="search" onChange={this.updateSearch} />
+        <div className="container">
+          <select onChange={(e) => searchTier(e.target.value)} className="input">
+            <option value={null} selected>All tiers</option>
+            <option>LC</option>
+            <option>PU</option>
+            <option>NU</option>
+            <option>RU</option>
+            <option>UU</option>
+            <option>OU</option>
+            <option>Uber</option>
+          </select>
+        </div>
         <button onClick={this.reset} className="button is-warning">Reset</button>
       </div>
       <div className="section columns is-multiline">
         {types.map(type => <p onClick={() => this.props.update(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 has-text-centered`}>{type}</p>)}
       </div>
+
     </div>
   }
 }
@@ -46,7 +59,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     reset: () => dispatch({type: 'RESET_SEARCH'}),
     update: (search) => dispatch({type: 'UPDATE_SEARCH', search}),
-    toggleScrollMode: () => dispatch(toggleScrollModeAction())
+    toggleScrollMode: () => dispatch(toggleScrollModeAction()),
+    searchTier: (tier) => dispatch({type: 'SEARCH_TIER', tier})
   }
 }
 

@@ -59,6 +59,7 @@ class PokemonPreview extends React.Component {
               <img className="image" src={pokemon.image_url} />
             </div>
             <div className="column is-6">
+              {pokemon.tier && <p style={{marginTop: 0}} className="subtitle is-1">{" "} Tier: {pokemon.tier}</p>}
               <StatsTable pokemon={pokemon} />
               <Evolutions pokemon={pokemon} />
             </div>
