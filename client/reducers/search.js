@@ -5,7 +5,7 @@ export default function searchReducer (state = '', action) {
     case 'UPDATE_SEARCH':
       return action.search
     case 'HARD_SEARCH':
-      jump('.search-container')
+      jump('.pokemon-list')
       return action.search
     case 'RESET_SEARCH':
       jump('.search-container')

@@ -30,26 +30,30 @@ class SearchBar extends Component {
         <input className="input" type="text" value={search} name="search" onChange={this.updateSearch} />
         <div className="container">
           <select onChange={(e) => searchTier(e.target.value)} className="input has-text-centered">
-            <option value={null} selected={searchTier == null}>All tiers</option>
-            <option value={"LC"} selected={searchTier == "LC"}>LC: Little Cup</option>
-            <option value={"PU"} selected={searchTier == "PU"}>PU: Stink Tier</option>
-            <option value={"NU"} selected={searchTier == "NU"}>NU: Never Used</option>
-            <option value={"RU"} selected={searchTier == "RU"}>RU: Rarely Used</option>
-            <option value={"UU"} selected={searchTier == "UU"}>UU: Under Used</option>
-            <option value={"OU"} selected={searchTier == "OU"}>OU: Over Used</option>
-            <option value={"Uber"} selected={searchTier == "Uber"}>Uber: The Nuts</option>
+            <option value={null} >All tiers</option>
+            <option value={"LC"} >LC: Little Cup</option>
+            <option value={"PU"} >PU: Stink Tier</option>
+            <option value={"BL4"} >BL4: BorderLine (PU - NU)</option>
+            <option value={"NU"} >NU: Never Used</option>
+            <option value={"BL3"} >BL3: BorderLine (NU - RU)</option>
+            <option value={"RU"} >RU: Rarely Used</option>
+            <option value={"BL2"} >BL2: BorderLine (RU - UU)</option>
+            <option value={"UU"} >UU: Under Used</option>
+            <option value={"BL"} >BL: BorderLine (UU - OU)</option>
+            <option value={"OU"} >OU: Over Used</option>
+            <option value={"Uber"} >Uber: The Nuts</option>
           </select>
         </div>
         <div className="container">
-          <select onChange={(e) => searchForGen(e.target.value)} className="input has-text-centered">
-            <option value={null} selected={searchGen == null}>All Generations</option>
-            <option value={"RB"} selected={searchGen == "RB"}>RBGY (1): Red / Blue / Green / Yellow </option>
-            <option value={"GS"} selected={searchGen == "GS"}>GSC (2): Gold / Silver / Crystal</option>
-            <option value={"RS"} selected={searchGen == "RS"}>RSE (3): Ruby / Sapphire / Emerald </option>
-            <option value={"DP"} selected={searchGen == "DP"}>DPP (4): Diamond / Pearl / Platinum </option>
-            <option value={"BW"} selected={searchGen == "BW"}>BW (5): Black / White (1/2)</option>
-            <option value={"XY"} selected={searchGen == "XY"}>XY (6): X / Y</option>
-            <option value={"SM"} selected={searchTier == "SM"}>SM (7): Sun / Moon</option>
+          <select defautlValue={searchGen} onChange={(e) => searchForGen(e.target.value)} className="input has-text-centered">
+            <option value={null} >All Generations</option>
+            <option value={"RB"} >RBGY (1): Red / Blue / Green / Yellow </option>
+            <option value={"GS"} >GSC (2): Gold / Silver / Crystal</option>
+            <option value={"RS"} >RSE (3): Ruby / Sapphire / Emerald </option>
+            <option value={"DP"} >DPP (4): Diamond / Pearl / Platinum </option>
+            <option value={"BW"} >BW (5): Black / White (1/2)</option>
+            <option value={"XY"} >XY (6): X / Y</option>
+            <option value={"SM"} >SM (7): Sun / Moon</option>
           </select>
         </div>
         {searchedTypes.map(type => <button onClick={() => this.props.searchType(type)} style={{backgroundColor: solveColor(type)}} className={`button column is-2 has-text-centered`}>{type}</button>)}

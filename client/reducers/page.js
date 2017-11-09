@@ -6,6 +6,10 @@ export default function pageReducer (state = 0, action) {
       return 0
     case 'HARD_SEARCH':
       return 0
+    case 'SEARCH_GEN':
+      return 0
+    case 'SEARCH_TIER':
+      return 0
     default:
       return state
   }

@@ -7,6 +7,7 @@ import PokemonPreview from './PokemonPreview'
 import SearchBar from './SearchBar'
 import Pagination from './Pagination'
 import {getPokemonRequest, toggleScrollModeAction, getMegasRequest} from '../actions/pokemon'
+import {solveTier} from '../utils/tiers'
 
 class PokemonList extends React.Component {
   constructor(props) {
@@ -28,10 +29,14 @@ class PokemonList extends React.Component {
       pokemon =  Array(12600 + 1).fill(0).map(() => Object.assign({}, data))
       pokemon[pokemon.length -1].dex_number = 420
       pokemon[pokemon.length - 1].name = "Krang It"
+      pokemon[pokemon.length - 1].description = "A simple brain"
       return pokemon
     }
     if (searchType[0] == "Krang") return Array(420).fill(0).map(() => Object.assign({}, data))
-    if (tier) pokemon = pokemon.filter(pokemon => pokemon.tier == tier)
+    if (tier) pokemon = pokemon.filter(pokemon => pokemon.tier == tier
+      || tier == solveTier(pokemon.tier
+      || this.props.megas.filter(mega => mega.dex_number == pokemon.dex_number).find(mega => mega.tier == tier)
+      ))
 
     if (this.props.searchType.length > 0) pokemon = pokemon.filter(pokemon => {
       for (let idx in this.props.searchType) {

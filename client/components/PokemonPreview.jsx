@@ -56,8 +56,9 @@ class PokemonPreview extends React.Component {
             <div className="column">
               {pokemon.tier && <p style={{marginTop: 0}} className="subtitle is-1">{" "} Tier: {pokemon.tier}</p>}
               <hr/>
-              <p className="subtitle is-6 is-right">{pokemon.description}</p>
               <img className="image" src={pokemon.image_url} />
+              <p className="subtitle is-6 is-right">{pokemon.description}</p>
+              <RenderMegas megas={megas} />
             </div>
             <div className="column is-6">
               <h1 className="subtitle is-1">Abilties:</h1>
@@ -70,7 +71,6 @@ class PokemonPreview extends React.Component {
               <hr />
               <StatsTable pokemon={pokemon} />
               <Evolutions pokemon={pokemon} />
-              <RenderMegas megas={megas} />
             </div>
           </div>
         </div>
