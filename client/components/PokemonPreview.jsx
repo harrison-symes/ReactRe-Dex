@@ -33,10 +33,10 @@ class PokemonPreview extends React.Component {
     this.setState({isClicked: false})
   }
   render() {
-    const {pokemon, scrollMode, searchType, megas} = this.props
+    const {pokemon, scrollMode, searchType, megas, selectPokemon, selectedMons} = this.props
     const {isClicked} = this.state
     const size = isClicked ? 'is-12' : 'is-4'
-    return isClicked || scrollMode
+    return scrollMode || selectedMons.find(mon => mon == pokemon)
       ? <div className='hero box' id={pokemon.name}>
         <div className="hero-head container level has-text-centered">
           <div className="level-item">
@@ -82,7 +82,7 @@ class PokemonPreview extends React.Component {
           {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
         </div>
       </div>
-      : <div onClick={this.click} className={`box column is-2`}>
+      : <div onClick={() => selectPokemon(pokemon)} className={`box column is-2`}>
         <p className="subtitle is-3">#{pokemon.dex_number}</p>
         <img  className="media image" src={pokemon.image_url} />
         <p className="subtitle is-4">{pokemon.name}</p>
@@ -90,8 +90,9 @@ class PokemonPreview extends React.Component {
   }
 }
 
-const mapStateToProps = ({scrollMode, megas}, props) => {
+const mapStateToProps = ({scrollMode, megas, selectedMons}, props) => {
   return {
+    selectedMons,
     scrollMode,
     megas: megas.filter(mega => mega.dex_number ==props.pokemon.dex_number)
   }
@@ -99,7 +100,8 @@ const mapStateToProps = ({scrollMode, megas}, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    searchType: (typeName) => dispatch({type: 'SEARCH_TYPE', typeName})
+    searchType: (typeName) => dispatch({type: 'SEARCH_TYPE', typeName}),
+    selectPokemon: (pokemon) => dispatch({type: "SELECT_POKEMON", pokemon})
   }
 }
 
