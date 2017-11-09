@@ -14,7 +14,7 @@ router.get('/megas', (req, res) => {
 })
 
 router.get('/caught', decode, (req, res) => {
-  pokemonDb.getUserPokemon(req.user.id)
+  pokemonDb.getUserPokemon(req.user.user_id)
     .then(caught => res.json(caught))
 })
 
