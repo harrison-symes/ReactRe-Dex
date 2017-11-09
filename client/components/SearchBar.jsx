@@ -7,8 +7,12 @@ import {types, solveColor} from '../utils/solveTypeColor'
 class SearchBar extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      showAdvanced: false
+    }
     this.updateSearch = this.updateSearch.bind(this)
     this.scrollModeToggle = this.scrollModeToggle.bind(this)
+    this.toggleAdvanced = this.toggleAdvanced.bind(this)
     this.reset = this.reset.bind(this)
   }
   scrollModeToggle() {
@@ -20,14 +24,22 @@ class SearchBar extends Component {
   reset() {
     this.props.reset()
   }
+  toggleAdvanced() {
+    this.setState({showAdvanced: !this.state.showAdvanced})
+  }
   render() {
     const {search, scrollMode, searchTier, searchedTypes, searchType, searchGen, searchForGen} = this.props
+    const {showAdvanced} = this.state
     let typeList = types
     if (search.toLowerCase() == "krang") typeList = types.map(() => "Krang")
-    return <div className='container search-container'>
+    return <div className='section search-container has-text-centered'>
       <div className="level columns">
         <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
         <input className="input" type="text" value={search} name="search" onChange={this.updateSearch} />
+        {searchedTypes.map(type => <button onClick={() => this.props.searchType(type)} style={{backgroundColor: solveColor(type)}} className={`button column is-2 has-text-centered`}>{type}</button>)}
+        <button onClick={this.reset} className="button is-warning">Reset</button>
+      </div>
+      {showAdvanced && <div>
         <div className="container">
           <select onChange={(e) => searchTier(e.target.value)} className="input has-text-centered">
             <option value={null} >All tiers</option>
@@ -56,15 +68,14 @@ class SearchBar extends Component {
             <option value={"SM"} >SM (7): Sun / Moon</option>
           </select>
         </div>
-        {searchedTypes.map(type => <button onClick={() => this.props.searchType(type)} style={{backgroundColor: solveColor(type)}} className={`button column is-2 has-text-centered`}>{type}</button>)}
-        <button onClick={this.reset} className="button is-warning">Reset</button>
-      </div>
-      <div className="section">
-        <div className="container columns is-multiline">
-          {typeList.map(type => <p onClick={() => searchType(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 has-text-centered`}>{type}</p>)}
+        <div className="section">
+          <div className="container columns is-multiline">
+            {typeList.map(type => <p onClick={() => searchType(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 has-text-centered`}>{type}</p>)}
+          </div>
         </div>
-      </div>
-
+      </div>}
+      <button className="button is-info" onClick={this.toggleAdvanced}>{showAdvanced ? "Hide Advanced" : "Show Advanced Options"}</button>
+      <br />
     </div>
   }
 }
