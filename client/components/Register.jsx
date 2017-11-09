@@ -24,17 +24,17 @@ class Register extends React.Component {
   }
   render() {
     return (
-      <form className="Register" onSubmit={this.submit}>
-        <label>Username:
-          <input type="text" name="user_name" onChange={this.updateDetails}/>
+      <form className="Register section has-text-centered" onSubmit={this.submit}>
+        <label className="label">Username:
+          <input className="input is-large" type="text" name="user_name" onChange={this.updateDetails}/>
         </label><br/>
-        <label>Password:
-          <input type="password" name="password" onChange={this.updateDetails}/>
+        <label className="label">Password:
+          <input className="input is-large" type="password" name="password" onChange={this.updateDetails}/>
         </label><br/>
-        <label>Confirm:
-          <input type="password" name="confirm_password" onChange={this.updateDetails}/>
+        <label className="label">Confirm:
+          <input className="input is-large" type="password" name="confirm_password" onChange={this.updateDetails}/>
         </label><br/>
-          <input type="submit" />
+          <input className="button is-success is-large" type="submit" />
       </form>
     )
   }

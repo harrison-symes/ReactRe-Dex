@@ -4,5 +4,6 @@ const knex = require('knex')(environment)
 module.exports = {
   getPokemon: (testDb) => (testDb || knex)('pokemon').orderBy('dex_number', 'asc'),
   getMegas: (testDb) => (testDb || knex)('megaEvolutions'),
-  getMegaById: (id, testDb) => (testDb || knex)('megaEvolutions').where('dex_number', id).first()
+  getMegaById: (id, testDb) => (testDb || knex)('megaEvolutions').where('dex_number', id).first(),
+  getUserPokemon: (user_Id, testDb) => (testDb || knex)('userCaught').where('user_Id', user_Id).select('dex_number')
 }

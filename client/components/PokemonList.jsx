@@ -6,7 +6,7 @@ import data from '../secret/data'
 import PokemonPreview from './PokemonPreview'
 import SearchBar from './SearchBar'
 import Pagination from './Pagination'
-import {getPokemonRequest, toggleScrollModeAction, getMegasRequest} from '../actions/pokemon'
+import {getPokemonRequest, toggleScrollModeAction, getMegasRequest, getCaughtPokemonRequest} from '../actions/pokemon'
 import {solveTier} from '../utils/tiers'
 
 class PokemonList extends React.Component {
@@ -20,6 +20,7 @@ class PokemonList extends React.Component {
   componentDidMount() {
     this.props.dispatch(getPokemonRequest())
     this.props.dispatch(getMegasRequest())
+    if (this.props.auth.isAuthenticated) this.props.dispatch(getCaughtPokemonRequest())
   }
   filterPokemon(pokemon) {
     const {searchGen, searchType} = this.props
@@ -80,9 +81,10 @@ class PokemonList extends React.Component {
   }
 }
 
-const mapStateToProps = ({pokemon, scrollMode, search, page, megas, searchTier, searchType, searchGen}) => {
-  console.log(scrollMode);
+const mapStateToProps = ({auth, pokemon, scrollMode, search, page, megas, searchTier, searchType, searchGen, caughtPokemon}) => {
+  console.log(caughtPokemon);
   return {
+    auth,
     pokemon,
     scrollMode,
     search,
@@ -90,7 +92,8 @@ const mapStateToProps = ({pokemon, scrollMode, search, page, megas, searchTier, 
     megas,
     searchTier,
     searchType,
-    searchGen
+    searchGen,
+    caughtPokemon
   }
 }
 
