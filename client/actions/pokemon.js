@@ -1,4 +1,5 @@
 import request from 'superagent'
+import authRequest from '../utils/api'
 
 export function receivePokemonAction (pokemon) {
   return {
@@ -36,5 +37,22 @@ export function getMegasRequest () {
 export function toggleScrollModeAction () {
   return {
     type: 'TOGGLE_SCROLL_MODE'
+  }
+}
+
+
+export function receiveCaughtPokemonAction (pokemon) {
+  return {
+    type: 'RECEIVE_CAUGHT_POKEMON',
+    pokemon
+  }
+}
+
+export function getCaughtPokemonRequest() {
+  return dispatch => {
+    authRequest('get', 'v1/pokemon/caught')
+      .then(res=>{
+        dispatch(receiveCaughtPokemonAction(res.body))
+      })
   }
 }

@@ -1,5 +1,6 @@
 import request from '../utils/api'
 import { saveUserToken } from '../utils/auth'
+import {getCaughtPokemonRequest} from './pokemon'
 
 function requestLogin () {
   return {
@@ -39,6 +40,7 @@ export function loginUser (creds) {
         } else {
           const userInfo = saveUserToken(response.body.token)
           dispatch(receiveLogin(userInfo))
+          dispatch(getCaughtPokemonRequest())
           document.location = "/#/"
         }
       }).catch(err => alert("Try Again!")

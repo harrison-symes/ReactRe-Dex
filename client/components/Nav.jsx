@@ -17,14 +17,20 @@ function Nav (props) {
       </div>
       <div className="hero-foot">
         {props.auth.isAuthenticated
-          ? <button onClick={() => props.dispatch(logoutUser())}>Logout</button>
+          ? <div className="level">
+            <div className="level-left">
+              <h1 className="subtitle is-3">Hello {props.auth.user.user_name}</h1>
+            </div>
+            <div className="level-right">
+              <button className="level-right button is-warning is-inverted" button onClick={() => props.dispatch(logoutUser())}>Logout</button>
+            </div>
+          </div>
           : <div className="level-right">
             <Link className="button is-info is-inverted is-outline" to="/login">Login</Link>
             <Link className="button is-info is-inverted is-outline" to="/register">Register</Link>
           </div>
         }
       </div>
-
     </div>
   )
 }

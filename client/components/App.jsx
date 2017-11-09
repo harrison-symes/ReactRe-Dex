@@ -13,8 +13,8 @@ const App = () => (
       <Nav />
       <hr />
       <Route exact path="/" component={PokemonList} />
-      {/* <Route path="/login" component={Login} /> */}
-      {/* <Route path="/Register" component={Register} /> */}
+      <Route path="/login" component={Login} />
+      <Route path="/Register" component={Register} />
     </div>
   </Router>
 )
