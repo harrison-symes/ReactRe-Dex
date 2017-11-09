@@ -2,10 +2,10 @@ import React from 'react'
 import {connect} from 'react-redux'
 import jump from 'jump.js'
 
-
 import PokemonSprite from './pokemonSprite'
 import StatsTable from './StatsTable'
 import Evolutions from './Evolutions'
+import RenderMegas from './Megas'
 
 import {solveColor} from '../utils/solveTypeColor'
 
@@ -14,7 +14,8 @@ class PokemonPreview extends React.Component {
     super(props)
     this.state = {
       isClicked: false,
-      queueJump: false
+      queueJump: false,
+      megas: []
     }
     this.click = this.click.bind(this)
     this.unClick = this.unClick.bind(this)
@@ -32,7 +33,7 @@ class PokemonPreview extends React.Component {
     this.setState({isClicked: false})
   }
   render() {
-    const {pokemon, scrollMode, searchType} = this.props
+    const {pokemon, scrollMode, searchType, megas} = this.props
     const {isClicked} = this.state
     const size = isClicked ? 'is-12' : 'is-4'
     return isClicked || scrollMode
@@ -53,10 +54,21 @@ class PokemonPreview extends React.Component {
         <div className="hero-body has-text-centered">
           <div className="columns">
             <div className="column">
-              <p className="subtitle is-6 is-right">{pokemon.description}</p>
+              {pokemon.tier && <p style={{marginTop: 0}} className="subtitle is-1">{" "} Tier: {pokemon.tier}</p>}
+              <hr/>
               <img className="image" src={pokemon.image_url} />
+              <p className="subtitle is-6 is-right">{pokemon.description}</p>
+              <RenderMegas megas={megas} />
             </div>
             <div className="column is-6">
+              <h1 className="subtitle is-1">Abilties:</h1>
+              <hr />
+              <div className="columns">
+                {pokemon.ability_one && <p className=" column subtitle">{pokemon.ability_one}</p>}
+                {pokemon.ability_two && <p className=" column subtitle">{pokemon.ability_two}</p>}
+                {pokemon.ability_three && <p className=" column subtitle">{pokemon.ability_three}</p>}
+              </div>
+              <hr />
               <StatsTable pokemon={pokemon} />
               <Evolutions pokemon={pokemon} />
             </div>
@@ -70,22 +82,24 @@ class PokemonPreview extends React.Component {
           {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
         </div>
       </div>
-      : <div onClick={this.click} className={`box column is-4`}>
+      : <div onClick={this.click} className={`box column is-2`}>
+        <p className="subtitle is-3">#{pokemon.dex_number}</p>
         <img  className="media image" src={pokemon.image_url} />
-        <p className="subtitle is-3">#{pokemon.dex_number} - {pokemon.name}</p>
+        <p className="subtitle is-4">{pokemon.name}</p>
       </div>
   }
 }
 
-const mapStateToProps = ({scrollMode}) => {
+const mapStateToProps = ({scrollMode, megas}, props) => {
   return {
-    scrollMode
+    scrollMode,
+    megas: megas.filter(mega => mega.dex_number ==props.pokemon.dex_number)
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    searchType: (search) => dispatch({type: 'UPDATE_SEARCH', search})
+    searchType: (typeName) => dispatch({type: 'SEARCH_TYPE', typeName})
   }
 }
 

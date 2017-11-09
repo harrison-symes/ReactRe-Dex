@@ -27,7 +27,7 @@ function start () {
       var arr = JSON.parse(data).pokemon
       console.log(arr.length)
       console.log(process.argv)
-      getImageRecursive(process.argv[2] ? Number(process.argv[2]) : arr.length, arr)
+      getImageRecursive(process.argv[2] ? Number(process.argv[2]) : arr.length > 0 ? arr.length : 1, arr)
       .then(message => console.log("done"))
     }
   })
@@ -81,7 +81,7 @@ const solveStage = ($, pokemon) => {
   if (name == 'Flabebe') name = "Flabébé"
   if (name == 'Mr_Mime') name = "Mr. Mime"
   if (name == 'Mime_Jr') name = "Mime Jr."
-  console.log({name});
+
   for (var i = 0; i < first.length; i++) if(first[i].attribs.alt === name) {
     stage = 1; atIndex = i;
   }
@@ -92,7 +92,6 @@ const solveStage = ($, pokemon) => {
     middle.length == 0 ? stage = 2 : stage = 3
     atIndex = k
   }
-  console.log({stage});
   var evolvesFrom = []
   var evolvesInto = []
 
@@ -151,6 +150,28 @@ const getOriGen = ($) => {
   return $('.OtherGensList').find('li')[0].children[0].children[0].data
 }
 
+const getTier = ($) => {
+  return $('.PokemonAltInfo-data').find('tr')[2].children[1].children[0].children[0] ?  $('.PokemonAltInfo-data').find('tr')[2].children[1].children[0].children[0].children[0].children[0].data : null
+}
+
+
+const getAbilties = ($, pokemon) => {
+  var abilities = $('.AbilityList')[0]
+  console.log(abilities.children.length);
+  pokemon.ability_one = abilities.children[0] ? abilities.children[0].children[0].children[0].data : null
+  pokemon.ability_two = abilities.children[1] ? abilities.children[1].children[0].children[0].data : null
+  pokemon.ability_three = abilities.children[2] ? abilities.children[2].children[0].children[0].data : null
+  // for (var i = 0; i < abilities.children.length; i++) {
+  //   console.log({i});
+  //   if (i ==  0) pokemon.ability_one = abilities.children[i].children[0].children[0].data
+  //   if (i ==  1) pokemon.ability_two = abilities.children[i].children[0].children[0].data
+  //   if (i ==  2) pokemon.ability_three = abilities.children[i].children[0].children[0].data
+  // }
+  console.log({pokemon});
+  // pokemon.ability_one = $('.PokemonAltInfo-data').find('tr')[1].children[1].children[0].children[0].children[0].children[0].data
+}
+
+
 const getPokemon = ($) => {
   let pokemon = {
     image_url: getImage($),
@@ -167,17 +188,11 @@ const getPokemon = ($) => {
   return pokemon
 }
 
-
-const getType = ($) => {
-  return 'placeholder'
-}
-
 const getStats = ($, pokemon) => {
   const stats = $('.PokemonStats').find('tbody').find('tr')
   for (let i = 0; i < stats.length; i++) {
     const stat = stats[i].children[0].children[0].data
     const value = stats[i].children[1].children[0].data
-    console.log({stat, value});
     switch (stat) {
       case 'HP:': if(!pokemon.hasOwnProperty('HP')) pokemon.HP=value; break;
       case 'Attack:': if(!pokemon.hasOwnProperty('Attack')) pokemon.Attack=value; break;
@@ -201,7 +216,6 @@ const getSmogonData = (pokemon, tries = 0) => {
   return new Promise(function(resolve, reject) {
     console.log("starting site", pokemon.name, tries);
     const Browser = new zombie()
-    browsers++
     Browser.visit("http://www.smogon.com/dex/sm/pokemon/" + pokemon.name)
     .then(() => {
       Browser.wait()
@@ -212,14 +226,20 @@ const getSmogonData = (pokemon, tries = 0) => {
         getStats($, pokemon)
         getTypes($, pokemon)
         pokemon.oriGen = getOriGen($)
-        console.log({pokemon});
-        browsers--
+        pokemon.tier = getTier($)
+        getAbilties($, pokemon)
         resolve(pokemon)
         // Browser.close()
       })
-      .catch(() => tries >= 20 ? resolve(pokemon) : setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000))
+      .catch((err) => {
+        console.log({err, name: pokemon.name});
+        tries >= 5 ? resolve(pokemon) : setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000)
+      })
     })
-    .catch(() => tries >= 20 ? resolve(pokemon) : setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000))
+    .catch((err) => {
+      console.log({err, name: pokemon.name});
+      tries >= 5 ? resolve(pokemon) : setTimeout(() => resolve(getSmogonData(pokemon, tries + 1)), 3000)
+    })
   });
   // return pokemon
 }
@@ -255,7 +275,7 @@ function getImageRecursive (idx, arr) {
         arr[idx - 1] = pokemon
         writeFile(arr)
         .then(message => {
-          if (arr.length >= pokemonLength) resolve(arr)
+          if (arr.length > pokemonLength) resolve(arr)
           else resolve(getImageRecursive(idx + 1, arr))
           console.log(message)
         })

@@ -16,8 +16,10 @@
     "h:seed": "heroku run knex seed:run",
     "knex": "knex",
     "scrape:pokemon": "node server/scrape/scrapePokemon.js",
+    "scrape:megas": "node server/scrape/scrapeMegas.js",
     "scrape:pokemon:cont": "node server/scrape/scrapePokemon.js cont",
-    "populate:pokemon": "node server/scrape/populatePokemonDb.js"
+    "populate:pokemon": "node server/scrape/populatePokemonDb.js",
+    "populate:megas": "node server/scrape/populateMegas.js"
   },
   "ava": {
     "require": "babel-register",

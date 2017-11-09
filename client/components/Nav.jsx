@@ -5,7 +5,7 @@ import {logoutUser} from '../actions/logout'
 
 function Nav (props) {
   return (
-    <div className="Nav hero is-small is-bold is-info level has-text-centered">
+    <div className={`Nav hero is-small is-bold ${props.search == "krang" ? "is-danger" : "is-info"} level has-text-centered`}>
       <div className="hero-head section">
         <div className="level-right level-item">
           <Link className="button is-info is-inverted" to="/">Home</Link>
@@ -29,8 +29,8 @@ function Nav (props) {
   )
 }
 
-const mapStateToProps = ({auth}) => {
-  return {auth}
+const mapStateToProps = ({auth, search}) => {
+  return {auth, search}
 }
 
 export default connect(mapStateToProps)(Nav)

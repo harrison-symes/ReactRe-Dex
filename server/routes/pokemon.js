@@ -7,4 +7,9 @@ router.get('/', (req, res) => {
     .then(pokemon => res.json(pokemon))
 })
 
+router.get('/megas', (req, res) => {
+  pokemonDb.getMegas()
+    .then(megas => res.json(megas))
+})
+
 module.exports = router

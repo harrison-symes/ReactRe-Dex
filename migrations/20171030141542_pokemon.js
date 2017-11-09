@@ -18,6 +18,10 @@ exports.up = function(knex, Promise) {
     table.integer('stage')
     table.integer('stages')
     table.string('oriGen')
+    table.string('tier')
+    table.string('ability_one')
+    table.string('ability_two')
+    table.string('ability_three')
   })
 }
 

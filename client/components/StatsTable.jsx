@@ -20,6 +20,9 @@ class Progress extends React.Component {
     }
     this.tickPercentage = this.tickPercentage.bind(this)
   }
+  componentWillUnmount() {
+    clearInterval(this.state.interval)
+  }
   componentDidMount() {
     const interval = setInterval(this.tickPercentage, 10)
     this.setState({interval})
@@ -27,6 +30,7 @@ class Progress extends React.Component {
   tickPercentage() {
     let {currentPerc, maxPerc, interval} = this.state
       currentPerc++
+      // if (currentPerc => 100) this.setState({currentPerc: 0})
       if (currentPerc >= maxPerc) {
         currentPerc = maxPerc
         clearInterval(interval)

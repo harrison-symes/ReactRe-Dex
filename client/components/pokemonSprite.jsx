@@ -22,11 +22,21 @@ export default class PokemonSprite extends React.Component {
   }
   solveImage(gen) {
     let {name, oriGen} = this.props
+    if (name == "Krang") name = 'Ditto'
+
     name = name.split('').map(char => char == '.' ? "_" : char).join('')
     if (name.includes('Tapu')) {
       name = name.split('Tapu')
       name[0] = "Tapu"
       name = name.join('_')
+    }
+    if (name.includes('Mega')) {
+      name = name.split(' ')
+      name = `${name[1]}-mega${name[2] ? "-" + name[2] : ""}`
+    }
+    if (name.includes('Primal')) {
+      name = name.split(' ')
+      name = `${name[1]}-primal`
     }
     const imageClass = ""
     switch (oriGen) {
