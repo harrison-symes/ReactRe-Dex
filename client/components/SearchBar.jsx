@@ -28,7 +28,7 @@ class SearchBar extends Component {
     this.setState({showAdvanced: !this.state.showAdvanced})
   }
   render() {
-    const {search, scrollMode, searchTier, searchedTypes, searchType, searchGen, searchForGen} = this.props
+    const {auth, search, scrollMode, searchTier, searchedTypes, searchType, searchGen, searchForGen, showCaughtPokemon, toggleShowCaught, caughtPokemon, pokemon, toggleShowUncaught, showUncaughtPokemon} = this.props
     const {showAdvanced} = this.state
     let typeList = types
     if (search.toLowerCase() == "krang") typeList = types.map(() => "Krang")
@@ -73,6 +73,18 @@ class SearchBar extends Component {
         <div className=" columns is-multiline">
           {typeList.map(type => <p onClick={() => searchType(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 has-text-centered`}>{type}</p>)}
         </div>
+        {auth.isAuthenticated && <div>
+          <label className="checkbox">
+            <input onClick={toggleShowCaught} checked={showCaughtPokemon} type="checkbox" />
+            Show Caught Pokemon ({caughtPokemon.length})
+          </label>
+        </div>}
+        {auth.isAuthenticated && <div>
+          <label className="checkbox">
+            <input onClick={toggleShowUncaught} checked={showUncaughtPokemon} type="checkbox" />
+            Show Uncaught Pokemon ({pokemon.length - caughtPokemon.length})
+          </label>
+        </div>}
       </div>}
       <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
       <button className={`button ${showAdvanced ? "is-primary" : "is-info"}`} onClick={this.toggleAdvanced}>{showAdvanced ? "Hide Advanced Options" : "Show Advanced Options"}</button>
@@ -80,12 +92,17 @@ class SearchBar extends Component {
   }
 }
 
-const mapStateToProps = ({search, scrollMode, searchType, searchGen}) => {
+const mapStateToProps = ({auth, pokemon, search, scrollMode, searchType, searchGen, caughtPokemon, showCaughtPokemon, showUncaughtPokemon}) => {
   return {
+    auth,
+    pokemon,
     search,
     scrollMode,
     searchedTypes: searchType,
-    searchGen
+    searchGen,
+    showCaughtPokemon,
+    showUncaughtPokemon,
+    caughtPokemon
   }
 }
 
@@ -96,7 +113,9 @@ const mapDispatchToProps = (dispatch) => {
     toggleScrollMode: () => dispatch(toggleScrollModeAction()),
     searchTier: (tier) => dispatch({type: 'SEARCH_TIER', tier}),
     searchType: (type) => dispatch({type: 'SEARCH_TYPE', typeName: type}),
-    searchForGen: (gen) => dispatch({type: 'SEARCH_GEN', gen})
+    searchForGen: (gen) => dispatch({type: 'SEARCH_GEN', gen}),
+    toggleShowCaught: () => dispatch({type: 'TOGGLE_SHOW_CAUGHT'}),
+    toggleShowUncaught: () => dispatch({type: 'TOGGLE_SHOW_UNCAUGHT'})
   }
 }
 

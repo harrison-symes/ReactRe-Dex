@@ -23,7 +23,7 @@ class PokemonList extends React.Component {
     if (this.props.auth.isAuthenticated) this.props.dispatch(getCaughtPokemonRequest())
   }
   filterPokemon(pokemon) {
-    const {searchGen, searchType} = this.props
+    const {searchGen, searchType, showCaughtPokemon, caughtPokemon, showUncaughtPokemon} = this.props
     const search = this.props.search.toLowerCase()
     const tier = this.props.searchTier
     if (search == 'krang') {
@@ -45,11 +45,12 @@ class PokemonList extends React.Component {
       }
       return true
     })
+    if (!showCaughtPokemon) pokemon = pokemon.filter(pokemon => !caughtPokemon.find(caught => caught == pokemon.dex_number))
+    if (!showUncaughtPokemon) pokemon = pokemon.filter(pokemon => caughtPokemon.find(caught => caught == pokemon.dex_number))
 
     if (searchGen) pokemon = pokemon.filter(pokemon => pokemon.oriGen == searchGen)
 
     if (search == 'mega') return pokemon.filter(pokemon => this.props.megas.find(mega => mega.dex_number == pokemon.dex_number))
-
     return pokemon.filter(mon =>
       mon.name.toLowerCase().includes(search)
       || mon.dex_number.toString().includes(search)
@@ -81,8 +82,7 @@ class PokemonList extends React.Component {
   }
 }
 
-const mapStateToProps = ({auth, pokemon, scrollMode, search, page, megas, searchTier, searchType, searchGen, caughtPokemon}) => {
-  console.log(caughtPokemon);
+const mapStateToProps = ({auth, pokemon, scrollMode, search, page, megas, searchTier, searchType, searchGen, caughtPokemon, showCaughtPokemon, showUncaughtPokemon}) => {
   return {
     auth,
     pokemon,
@@ -93,7 +93,9 @@ const mapStateToProps = ({auth, pokemon, scrollMode, search, page, megas, search
     searchTier,
     searchType,
     searchGen,
-    caughtPokemon
+    caughtPokemon,
+    showCaughtPokemon,
+    showUncaughtPokemon
   }
 }
 

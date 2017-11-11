@@ -11,6 +11,8 @@ import searchType from './searchType'
 import searchGen from './searchGen'
 import selectedMons from './selectedMons'
 import caughtPokemon from './caughtPokemon'
+import showCaughtPokemon from './showCaughtPokemon'
+import showUncaughtPokemon from './showUncaughtPokemon'
 
 export default combineReducers({
   auth,
@@ -23,5 +25,7 @@ export default combineReducers({
   searchType,
   searchGen,
   selectedMons,
-  caughtPokemon
+  caughtPokemon,
+  showCaughtPokemon,
+  showUncaughtPokemon
 })
