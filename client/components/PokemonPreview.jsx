@@ -89,12 +89,12 @@ class PokemonPreview extends React.Component {
           {!scrollMode && <button className="button is-outline" onClick={() => unselectPokemon(pokemon)}>Show Less</button>}
         </div>
       </div>
-      : <div onClick={() => selectPokemon(pokemon)} className={`box column is-2`}>
+      : <div  onDoubleClick={() => catchPokemon(pokemon)} className={`box column is-2`}>
         <span className="level">
           <p className="subtitle is-3">#{pokemon.dex_number}</p>
           {auth.isAuthenticated && (isCaught && <p className="tag is-success">Caught</p>)}
         </span>
-        <img  className="media image" src={pokemon.image_url} />
+        <img onClick={() => selectPokemon(pokemon)} className="media image" src={pokemon.image_url} />
         <p className="subtitle is-4">{pokemon.name}</p>
       </div>
   }
