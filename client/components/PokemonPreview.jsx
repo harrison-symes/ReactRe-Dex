@@ -40,17 +40,17 @@ class PokemonPreview extends React.Component {
     const size = isClicked ? 'is-12' : 'is-4'
     const isCaught = !!caughtPokemon.find(dex_number => dex_number == pokemon.dex_number)
     return scrollMode || selectedMons.find(mon => mon == pokemon)
-      ? <div className='hero box' id={pokemon.name}>
+      ? <div className='hero box' id={pokemon.name}  onDoubleClick={() => unselectPokemon(pokemon)}>
         <div className="hero-head container level has-text-centered">
           <div className="level-item">
             <PokemonSprite name={pokemon.name} oriGen={pokemon.oriGen} />
-            {auth.isAuthenticated && (isCaught
-              ? <p className="level-item tag is-success">Caught!</p>
-              : <button onClick={() => catchPokemon(pokemon)} className="level-item is-small button is-danger">Not Caught</button>)
-            }
           </div>
           <div className="level-item">
-            <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name}</p>
+            <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name} - </p>
+            {auth.isAuthenticated && (isCaught
+              ? <p className="level-item tag is-large is-success">Caught!</p>
+              : <button onClick={() => catchPokemon(pokemon)} className="level-item button is-danger">Not Caught</button>)
+            }
           </div>
           <div className="level-item">
             <p onClick={() => searchType(pokemon.type_one)} style={{backgroundColor: solveColor(pokemon.type_one) }} className={`button level-item is-large ${pokemon.type_one}`}>{pokemon.type_one}</p>
