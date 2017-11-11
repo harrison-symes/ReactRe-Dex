@@ -7,6 +7,8 @@ import StatsTable from './StatsTable'
 import Evolutions from './Evolutions'
 import RenderMegas from './Megas'
 
+import {catchPokemonRequest} from '../actions/pokemon'
+
 import {solveColor} from '../utils/solveTypeColor'
 
 class PokemonPreview extends React.Component {
@@ -33,14 +35,19 @@ class PokemonPreview extends React.Component {
     this.setState({isClicked: false})
   }
   render() {
-    const {pokemon, scrollMode, searchType, megas, selectPokemon, selectedMons} = this.props
+    const {pokemon, scrollMode, searchType, megas, selectPokemon, selectedMons, caughtPokemon, catchPokemon, auth, unselectPokemon} = this.props
     const {isClicked} = this.state
     const size = isClicked ? 'is-12' : 'is-4'
+    const isCaught = !!caughtPokemon.find(dex_number => dex_number == pokemon.dex_number)
     return scrollMode || selectedMons.find(mon => mon == pokemon)
       ? <div className='hero box' id={pokemon.name}>
         <div className="hero-head container level has-text-centered">
           <div className="level-item">
             <PokemonSprite name={pokemon.name} oriGen={pokemon.oriGen} />
+            {auth.isAuthenticated && (isCaught
+              ? <p className="level-item tag is-success">Caught!</p>
+              : <button onClick={() => catchPokemon(pokemon)} className="level-item is-small button is-danger">Not Caught</button>)
+            }
           </div>
           <div className="level-item">
             <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name}</p>
@@ -79,20 +86,25 @@ class PokemonPreview extends React.Component {
             <a className="button is-info is-inverted level-item" href={`https://bulbapedia.bulbagarden.net/wiki/${pokemon.name}_(Pok%C3%A9mon)`}>View on Bulbapedia</a>
             <a className="button is-info is-inverted level-item" href={`http://www.smogon.com/dex/sm/pokemon/${pokemon.name.toLowerCase()}/`}>View on Smogon</a>
           </div>
-          {!scrollMode && <button className="button is-outline" onClick={this.unClick}>Show Less</button>}
+          {!scrollMode && <button className="button is-outline" onClick={() => unselectPokemon(pokemon)}>Show Less</button>}
         </div>
       </div>
       : <div onClick={() => selectPokemon(pokemon)} className={`box column is-2`}>
-        <p className="subtitle is-3">#{pokemon.dex_number}</p>
+        <span className="level">
+          <p className="subtitle is-3">#{pokemon.dex_number}</p>
+          {auth.isAuthenticated && (isCaught && <p className="tag is-success">Caught</p>)}
+        </span>
         <img  className="media image" src={pokemon.image_url} />
         <p className="subtitle is-4">{pokemon.name}</p>
       </div>
   }
 }
 
-const mapStateToProps = ({scrollMode, megas, selectedMons}, props) => {
+const mapStateToProps = ({scrollMode, megas, selectedMons, caughtPokemon, auth}, props) => {
   return {
+    auth,
     selectedMons,
+    caughtPokemon,
     scrollMode,
     megas: megas.filter(mega => mega.dex_number ==props.pokemon.dex_number)
   }
@@ -100,8 +112,10 @@ const mapStateToProps = ({scrollMode, megas, selectedMons}, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    catchPokemon: (pokemon) => dispatch(catchPokemonRequest(pokemon)),
     searchType: (typeName) => dispatch({type: 'SEARCH_TYPE', typeName}),
-    selectPokemon: (pokemon) => dispatch({type: "SELECT_POKEMON", pokemon})
+    selectPokemon: (pokemon) => dispatch({type: "SELECT_POKEMON", pokemon}),
+    unselectPokemon: (pokemon) => dispatch({type: 'UNSELECT_POKEMON', pokemon})
   }
 }
 

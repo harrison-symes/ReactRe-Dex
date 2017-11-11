@@ -48,11 +48,27 @@ export function receiveCaughtPokemonAction (pokemon) {
   }
 }
 
+export function catchPokemonAction (pokemon) {
+  return {
+    type: 'CATCH_POKEMON',
+    pokemon
+  }
+}
+
 export function getCaughtPokemonRequest() {
   return dispatch => {
     authRequest('get', 'v1/pokemon/caught')
       .then(res=>{
         dispatch(receiveCaughtPokemonAction(res.body))
+      })
+  }
+}
+
+export function catchPokemonRequest (pokemon) {
+  return dispatch => {
+    authRequest('post', 'v1/pokemon/caught/' + pokemon.dex_number)
+      .then(res => {
+        dispatch(catchPokemonAction(pokemon.dex_number))
       })
   }
 }

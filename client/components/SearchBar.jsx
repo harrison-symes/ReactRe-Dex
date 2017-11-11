@@ -34,10 +34,9 @@ class SearchBar extends Component {
     if (search.toLowerCase() == "krang") typeList = types.map(() => "Krang")
     return <div className='section search-container has-text-centered'>
       <div className="level columns">
-        <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
-        <input className="input" type="text" value={search} name="search" onChange={this.updateSearch} />
+        <input className="input is-large" type="text" placeholder="Search For Pokemon" value={search} name="search" onChange={this.updateSearch} />
         {searchedTypes.map(type => <button onClick={() => this.props.searchType(type)} style={{backgroundColor: solveColor(type)}} className={`button column is-2 has-text-centered`}>{type}</button>)}
-        <button onClick={this.reset} className="button is-warning">Reset</button>
+        <button onClick={this.reset} className="button is-warning is-large">Reset</button>
       </div>
       {showAdvanced && <div className="section">
         <div className="level">
@@ -75,8 +74,8 @@ class SearchBar extends Component {
           {typeList.map(type => <p onClick={() => searchType(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 has-text-centered`}>{type}</p>)}
         </div>
       </div>}
-
-      <button className="button is-info" onClick={this.toggleAdvanced}>{showAdvanced ? "Hide Advanced" : "Show Advanced Options"}</button>
+      <button onClick={this.scrollModeToggle} className={`button is-outline ${scrollMode ? 'is-primary' : 'is-info'}`}>{scrollMode ? "Leave Scroll Mode" : "Enter Scroll Mode"}</button>
+      <button className={`button ${showAdvanced ? "is-primary" : "is-info"}`} onClick={this.toggleAdvanced}>{showAdvanced ? "Hide Advanced Options" : "Show Advanced Options"}</button>
     </div>
   }
 }

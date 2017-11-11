@@ -10,6 +10,8 @@ export default function pageReducer (state = 0, action) {
       return 0
     case 'SEARCH_TIER':
       return 0
+    case 'SEARCH_TYPE':
+      return 0
     default:
       return state
   }

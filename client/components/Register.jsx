@@ -24,7 +24,7 @@ class Register extends React.Component {
   }
   render() {
     return (
-      <form className="Register section has-text-centered" onSubmit={this.submit}>
+      <form className="Register section has-text-centered box" onSubmit={this.submit}>
         <label className="label">Username:
           <input className="input is-large" type="text" name="user_name" onChange={this.updateDetails}/>
         </label><br/>

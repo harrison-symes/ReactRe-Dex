@@ -15,7 +15,12 @@ router.get('/megas', (req, res) => {
 
 router.get('/caught', decode, (req, res) => {
   pokemonDb.getUserPokemon(req.user.user_id)
-    .then(caught => res.json(caught))
+    .then(caught => res.json(caught.map(({dex_number}) => dex_number)))
+})
+
+router.post('/caught/:id', decode, (req, res) => {
+  pokemonDb.catchPokemon(req.params.id, req.user.user_id)
+    .then(() => res.sendStatus(201))
 })
 
 module.exports = router

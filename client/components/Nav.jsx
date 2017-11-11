@@ -19,10 +19,16 @@ function Nav (props) {
         {props.auth.isAuthenticated
           ? <div className="level">
             <div className="level-left">
-              <h1 className="subtitle is-3">Hello {props.auth.user.user_name}</h1>
+              <h1 className="subtitle is-3">{props.auth.user.user_name}</h1>
+            </div>
+            <div className="level-item">
+              <h1 className="subtitle is-3">{props.caughtPokemon.length} Pokemon</h1>
+            </div>
+            <div className="level-item">
+              <h1 className="subtitle is-3">0 Teams</h1>
             </div>
             <div className="level-right">
-              <button className="level-right button is-warning is-inverted" button onClick={() => props.dispatch(logoutUser())}>Logout</button>
+              <button className="level-right button is-warning" button onClick={() => props.dispatch(logoutUser())}>Logout</button>
             </div>
           </div>
           : <div className="level-right">
@@ -35,8 +41,8 @@ function Nav (props) {
   )
 }
 
-const mapStateToProps = ({auth, search}) => {
-  return {auth, search}
+const mapStateToProps = ({auth, search, caughtPokemon}) => {
+  return {auth, search, caughtPokemon}
 }
 
 export default connect(mapStateToProps)(Nav)
