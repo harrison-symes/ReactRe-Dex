@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 function Pagination ({page, pages, changePage}) {
   return <div className="pagination is-centered">
-    <div className="pagination-list">
+    <div className="pagination-list columns">
       <div className="level">
         {page != 0
           ? <a className="pagination-link" onClick={() => changePage(0)}>First</a>
