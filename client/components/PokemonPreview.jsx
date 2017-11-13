@@ -51,9 +51,9 @@ class PokemonPreview extends React.Component {
             ? <p className="level-item tag is-large is-success">Caught!</p>
             : <button onClick={() => catchPokemon(pokemon)} className="level-item button is-danger">Not Caught</button>)
           }
-          <div className="level-item">
-            <p onClick={() => searchType(pokemon.type_one)} style={{backgroundColor: solveColor(pokemon.type_one) }} className={`button level-item is-large ${pokemon.type_one}`}>{pokemon.type_one}</p>
-            {pokemon.type_two && <p onClick={() => searchType(pokemon.type_two)} style={{backgroundColor: solveColor(pokemon.type_two) }} className={`button level-item is-large ${pokemon.type_one}`}>{pokemon.type_two}</p>}
+          <div className="level-item columns is-mobile">
+            <p onClick={() => searchType(pokemon.type_one)} style={{backgroundColor: solveColor(pokemon.type_one) }} className={`button is-large ${pokemon.type_one}`}>{pokemon.type_one}</p>
+            {pokemon.type_two && <p onClick={() => searchType(pokemon.type_two)} style={{backgroundColor: solveColor(pokemon.type_two) }} className={`button is-large ${pokemon.type_one}`}>{pokemon.type_two}</p>}
           </div>
         </div>
         <hr />
