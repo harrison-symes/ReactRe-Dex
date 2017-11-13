@@ -27,15 +27,18 @@ function Evolutions ({pokemon, pokemonList, search}) {
   prevStages.forEach(evolvesFrom => JSON.parse(evolvesFrom.evolvesFrom).forEach(evolvesFrom => prevPrevStages.push(pokemonList.find(listMon => listMon.name == evolvesFrom)) ))
 
   console.log({nextStages, nextNextStages});
-  return <div className="columns has-text-centered">
-    <DisplayChain array={prevPrevStages} stage={pokemon.stage-2} />
-    <DisplayChain array={prevStages} stage={pokemon.stage-1} />
-    <div className="column">
-      <DisplayStage stage={pokemon.stage} isCurrent={true} />
-      <DisplayChainItem pokemon={pokemon} />
+  return <div className="">
+    <h1 className="title is-3">Evolutions:</h1>
+    <div className="columns has-text-centered">
+      <DisplayChain array={prevPrevStages} stage={pokemon.stage-2} />
+      <DisplayChain array={prevStages} stage={pokemon.stage-1} />
+      <div className="column">
+        <DisplayStage stage={pokemon.stage} isCurrent={true} />
+        <DisplayChainItem pokemon={pokemon} />
+      </div>
+      <DisplayChain array={nextStages} stage={pokemon.stage+1} />
+      <DisplayChain array={nextNextStages} stage={pokemon.stage+2} />
     </div>
-    <DisplayChain array={nextStages} stage={pokemon.stage+1} />
-    <DisplayChain array={nextNextStages} stage={pokemon.stage+2} />
   </div>
 }
 

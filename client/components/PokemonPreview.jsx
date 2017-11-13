@@ -60,19 +60,24 @@ class PokemonPreview extends React.Component {
         <div className="hero-body has-text-centered">
           <div className="columns">
             <div className="column">
-              {pokemon.tier && <p style={{marginTop: 0}} className="subtitle is-1">{" "} Tier: {pokemon.tier}</p>}
-              <hr/>
+              {pokemon.tier && <div>
+                <p style={{marginTop: 0}} className="subtitle is-1">{" "} Tier: {pokemon.tier}</p>
+                <hr/>
+              </div>}
               <img className="image" src={pokemon.image_url} />
               <p className="subtitle is-6 is-right">{pokemon.description}</p>
-              <RenderMegas megas={megas} />
+              <div>
+                <h1 className="subtitle is-1">Forms:</h1>
+                <RenderMegas megas={megas} />
+              </div>
             </div>
             <div className="column is-6">
               <h1 className="subtitle is-1">Abilties:</h1>
               <hr />
               <div className="columns">
-                {pokemon.ability_one && <p className=" column subtitle">{pokemon.ability_one}</p>}
-                {pokemon.ability_two && <p className=" column subtitle">{pokemon.ability_two}</p>}
-                {pokemon.ability_three && <p className=" column subtitle">{pokemon.ability_three}</p>}
+                {pokemon.ability_one && <p className="subtitle is-4">{pokemon.ability_one}</p>}
+                {pokemon.ability_two && <p className="subtitle is-4">{pokemon.ability_two}</p>}
+                {pokemon.ability_three && <p className="subtitle is-4">{pokemon.ability_three}</p>}
               </div>
               <hr />
               <StatsTable pokemon={pokemon} />
