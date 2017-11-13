@@ -66,22 +66,28 @@ class PokemonPreview extends React.Component {
               </div>}
               <img className="image" src={pokemon.image_url} />
               <p className="subtitle is-6 is-right">{pokemon.description}</p>
+              <Evolutions pokemon={pokemon} />
+            </div>
+            <div className="column is-6">
+              <div>
+                <h1 className="subtitle is-1">Abilties:</h1>
+                <div className="columns">
+                  {pokemon.ability_one && <p className="subtitle is-4">{pokemon.ability_one}</p>}
+                  {pokemon.ability_two && <p className="subtitle is-4">{pokemon.ability_two}</p>}
+                  {pokemon.ability_three && <p className="subtitle is-4">{pokemon.ability_three}</p>}
+                </div>
+                <hr />
+              </div>
+              <div className="has-text-centered">
+                <h1 className="subtitle is-1">Stats:</h1>
+                <StatsTable pokemon={pokemon} />
+                <hr />
+              </div>
               <div>
                 <h1 className="subtitle is-1">Forms:</h1>
                 <RenderMegas megas={megas} />
+                <hr />
               </div>
-            </div>
-            <div className="column is-6">
-              <h1 className="subtitle is-1">Abilties:</h1>
-              <hr />
-              <div className="columns">
-                {pokemon.ability_one && <p className="subtitle is-4">{pokemon.ability_one}</p>}
-                {pokemon.ability_two && <p className="subtitle is-4">{pokemon.ability_two}</p>}
-                {pokemon.ability_three && <p className="subtitle is-4">{pokemon.ability_three}</p>}
-              </div>
-              <hr />
-              <StatsTable pokemon={pokemon} />
-              <Evolutions pokemon={pokemon} />
             </div>
           </div>
         </div>
