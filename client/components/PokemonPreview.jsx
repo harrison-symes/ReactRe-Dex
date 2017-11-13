@@ -45,13 +45,12 @@ class PokemonPreview extends React.Component {
           <div className="level-item">
             <PokemonSprite name={pokemon.name} oriGen={pokemon.oriGen} />
           </div>
-          <div className="level-item">
-            <p className="level-item title is-1">#{pokemon.dex_number} {" - "} {pokemon.name} - </p>
-            {auth.isAuthenticated && (isCaught
-              ? <p className="level-item tag is-large is-success">Caught!</p>
-              : <button onClick={() => catchPokemon(pokemon)} className="level-item button is-danger">Not Caught</button>)
-            }
-          </div>
+          <p className="level-item title is-1">#{pokemon.dex_number}</p>
+          <p className="level-item title is-1">{pokemon.name}</p>
+          {auth.isAuthenticated && (isCaught
+            ? <p className="level-item tag is-large is-success">Caught!</p>
+            : <button onClick={() => catchPokemon(pokemon)} className="level-item button is-danger">Not Caught</button>)
+          }
           <div className="level-item">
             <p onClick={() => searchType(pokemon.type_one)} style={{backgroundColor: solveColor(pokemon.type_one) }} className={`button level-item is-large ${pokemon.type_one}`}>{pokemon.type_one}</p>
             {pokemon.type_two && <p onClick={() => searchType(pokemon.type_two)} style={{backgroundColor: solveColor(pokemon.type_two) }} className={`button level-item is-large ${pokemon.type_one}`}>{pokemon.type_two}</p>}

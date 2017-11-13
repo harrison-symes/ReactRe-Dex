@@ -70,7 +70,7 @@ class SearchBar extends Component {
             </select>
           </div>
         </div>
-        <div className=" columns is-multiline">
+        <div className="columns is-multiline is-mobile">
           {typeList.map(type => <p onClick={() => searchType(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 has-text-centered`}>{type}</p>)}
         </div>
         {auth.isAuthenticated && <div>
