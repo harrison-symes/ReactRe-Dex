@@ -35,7 +35,7 @@ class SearchBar extends Component {
     return <div className='section search-container has-text-centered'>
       <div className="level columns">
         <input className="input is-large" type="text" placeholder="Search For Pokemon" value={search} name="search" onChange={this.updateSearch} />
-        {searchedTypes.map(type => <button onClick={() => this.props.searchType(type)} style={{backgroundColor: solveColor(type)}} className={`button column is-2 has-text-centered`}>{type}</button>)}
+        {searchedTypes.map(type => <button onClick={() => this.props.searchType(type)} style={{backgroundColor: solveColor(type)}} className={`button column is-2-desktop is-half-mobile has-text-centered`}>{type}</button>)}
         <button onClick={this.reset} className="button is-warning is-large">Reset</button>
       </div>
       {showAdvanced && <div className="section">
@@ -71,7 +71,7 @@ class SearchBar extends Component {
           </div>
         </div>
         <div className="columns is-multiline is-mobile">
-          {typeList.map(type => <p onClick={() => searchType(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2 is-one-third-mobile has-text-centered`}>{type}</p>)}
+          {typeList.map(type => <p onClick={() => searchType(type)} style={{backgroundColor: solveColor(type) }} className={`button column is-2-desktop is-one-third-mobile has-text-centered`}>{type}</p>)}
         </div>
         {auth.isAuthenticated && <div>
           <label className="checkbox">
